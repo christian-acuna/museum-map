@@ -1,13 +1,3 @@
-var map;
-function initMap() {
-  map = new google.maps.Map(document.getElementById('map'), {
-    center: {
-      lat: 22.396428,
-      lng: 114.109497
-    },
-    zoom: 8
-  });
-}
 document.getElementById('data').addEventListener('click', getHarvardData);
 
 var AppViewModel = function() {
@@ -34,7 +24,16 @@ function getHarvardData() {
       var mappedObjects = $.map(data.records, function(item) {
         console.log(item);
         // console.log(item.department);
-        return new ArtObject(item.title, item.department);
+        var image =  item.primaryimageurl + '?width=600';
+        return new ArtObject(
+          item.title,
+          item.department,
+          image, item.dated,
+          item.period,
+          item.culture,
+          item.dimensions,
+          item.creditline
+        );
       });
       console.log(mappedObjects);
       appViewModel.artObjects(mappedObjects);

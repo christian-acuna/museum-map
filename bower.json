@@ -19,7 +19,8 @@
     "jquery": "^3.1.1",
     "knockout": "^3.4.0",
     "bootstrap": "^3.3.7",
-    "font-awesome": "^4.6.3"
+    "font-awesome": "^4.6.3",
+    "skeleton": "^2.0.4"
   },
   "overrides": {
     "bootstrap": {

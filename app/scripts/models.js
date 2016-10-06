@@ -1,6 +1,12 @@
-var ArtObject = function(title, department) {
+var ArtObject = function(title, department, image, date, period, culture, dimensions, creditline) {
   var self = this;
 
-  self.title = ko.observable(title);
-  self.department = ko.observable(department);
+  self.title = title;
+  self.department = department;
+  self.imageURL = image;
+  self.date = date;
+  self.period = period;
+  self.culture = culture;
+  self.dimensions = dimensions;
+  self.creditline = creditline;
 };
