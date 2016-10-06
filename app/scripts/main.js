@@ -10,6 +10,15 @@ function initMap() {
 }
 document.getElementById('data').addEventListener('click', getHarvardData);
 
+var AppViewModel = function() {
+  var self = this;
+
+  self.artObjects = ko.observableArray([]);
+};
+
+var appViewModel = new AppViewModel();
+ko.applyBindings(appViewModel);
+
 function getHarvardData() {
   jQuery.ajax({
       url: "http://api.harvardartmuseums.org/object",
@@ -22,7 +31,13 @@ function getHarvardData() {
   .done(function(data, textStatus, jqXHR) {
       console.log("HTTP Request Succeeded: " + jqXHR.status);
       console.log(data);
-      parseHarvardData(data);
+      var mappedObjects = $.map(data.records, function(item) {
+        console.log(item);
+        // console.log(item.department);
+        return new ArtObject(item.title, item.department);
+      });
+      console.log(mappedObjects);
+      appViewModel.artObjects(mappedObjects);
   })
   .fail(function(jqXHR, textStatus, errorThrown) {
       console.log("HTTP Request Failed");

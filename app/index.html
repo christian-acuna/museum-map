@@ -23,8 +23,13 @@
     <!--[if lt IE 10]>
       <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
-    <h1>Hi!!</h1>
-    <button type="button" id="data"name="button">Get Data</button>
+    <div class="container">
+      <h1>Hi!!</h1>
+      <ul data-bind="foreach: artObjects">
+        <li data-bind="text: title"></li>
+      </ul>
+      <button type="button" id="data"name="button">Get Data</button>
+    </divc>
     <div id="map"></div>
 
 
@@ -37,6 +42,8 @@
 
     <!-- build:js scripts/main.js -->
     <script src="scripts/main.js"></script>
+    <script src="scripts/models.js"></script>
+
     <!-- endbuild -->
     <script src="https://maps.googleapis.com/maps/api/js?libraries=places,drawing,geometry&key=AIzaSyDFNEbCIajW_75HYkGBCYudNr1-5hp3J5E&v=3&callback=initMap"
    async defer></script>
