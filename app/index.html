@@ -11,6 +11,9 @@
 
     <!-- build:css styles/vendor.css -->
     <!-- bower:css -->
+    <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/bower_components/font-awesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="/bower_components/skeleton/css/skeleton.css" />
     <!-- endbower -->
     <!-- endbuild -->
 
@@ -23,7 +26,36 @@
     <!--[if lt IE 10]>
       <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
-    <h1>Hi!!</h1>
+
+<div id="map"></div>
+<div class="container-fluid" id="main">
+  <div class="row">
+  	<div class="col-xs-6" id="left">
+
+      <h2>China Art</h2>
+      <button type="button" id="data"name="button">Get Data</button>
+      <!-- item list -->
+      <div data-bind="foreach: artObjects">
+        <h5 data-bind="text: title"></h5>
+        <img class="img-rounded img-responsive center-block" data-bind="attr: {src: imageURL, alt: title }" />
+        <ul class="list-unstyled">
+          <li><span data-bind="text: date"></span> | <span data-bind="text: period"></span></li>
+          <li data-bind="text: department"></li>
+          <li data-bind="text: culture"></li>
+          <li data-bind="text: dimensions"></li>
+          <li data-bind="text: creditline"></li>
+        </ul>
+        <hr>
+      </div>
+      <!-- /item list -->
+
+    </div>
+    <div class="col-xs-6"><!--map-canvas will be postioned here--></div>
+
+  </div>
+</div>
+
+
 
 
     <!-- build:js scripts/vendor.js -->
@@ -34,7 +66,13 @@
     <!-- endbuild -->
 
     <!-- build:js scripts/main.js -->
+
+    <script src="scripts/map.js"></script>
     <script src="scripts/main.js"></script>
+    <script src="scripts/models.js"></script>
+
     <!-- endbuild -->
+    <script src="https://maps.googleapis.com/maps/api/js?libraries=places,drawing,geometry&key=AIzaSyDFNEbCIajW_75HYkGBCYudNr1-5hp3J5E&v=3&callback=initMap"
+   async defer></script>
   </body>
 </html>
