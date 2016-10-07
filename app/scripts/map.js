@@ -1,3 +1,4 @@
+
 var map;
 var styles = [
   {
@@ -241,6 +242,11 @@ var styles = [
   }
 ];
 
+// Request (GET http://api.map.baidu.com/place/v2/search)
+
+var markers = [];
+
+
 function initMap() {
   map = new google.maps.Map(document.getElementById('map'), {
     center: {
@@ -250,4 +256,76 @@ function initMap() {
     zoom: 10,
     styles: styles
   });
+  var largeInfowindow = new google.maps.InfoWindow();
+  var bounds = new google.maps.LatLngBounds();
+  var locations = [];
+  jQuery.ajax({
+      url: "http://api.map.baidu.com/place/v2/search",
+      type: "GET",
+      data: {
+          "q": "旅游景点",
+          "scope": "2",
+          "filter": "sort_name:好评|sort_rule:0",
+          "region": "香港",
+          "output": "json",
+          "ak": "oXmLrK2EjxWxZm1qab51f1fmRLm4I4kF",
+          "tag": "null",
+          "page_size": "20",
+          "page_num": "0",
+      }
+  })
+  .done(function(data, textStatus, jqXHR) {
+      console.log("HTTP Request Succeeded: " + jqXHR.status);
+      var parsedData = JSON.parse(data);
+      locations = parsedData.results;
+      createMarkers(locations);
+  })
+  .fail(function(jqXHR, textStatus, errorThrown) {
+      console.log("HTTP Request Failed");
+  })
+  .always(function() {
+      /* ... */
+  });
+
+  function createMarkers(locationsArray) {
+    locationsArray.forEach(function(loc, index) {
+      // console.log(loc);
+      var title = loc.name;
+      var position = loc.location;
+
+      var marker = new google.maps.Marker({
+        map: map,
+        position: position,
+        title: title,
+        animation: google.maps.Animation.DROP
+      });
+
+      marker.addListener('click', function() {
+        populateInfoWindow(this, largeInfowindow);
+      });
+
+      markers.push(marker);
+      // console.log(markers[index].position);
+      bounds.extend(markers[index].position);
+    });
+    map.fitBounds(bounds);
+  }
+
+  function populateInfoWindow(marker, infowindow) {
+    if (infowindow.marker != marker) {
+            googlePlaceSearch(marker);
+            infowindow.marker = marker;
+            infowindow.setContent('<div>' + marker.title + '</div>');
+            infowindow.open(map, marker);
+            // Make sure the marker property is cleared if the infowindow is closed.
+            infowindow.addListener('closeclick',function(){
+              infowindow.setMarker(null);
+            });
+          }
+  }
+
+  function googlePlaceSearch(marker) {
+    console.log(marker.title);
+  }
 }
+// var bounds = new google.maps.LatLngBounds();
