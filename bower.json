@@ -20,7 +20,8 @@
     "knockout": "^3.4.0",
     "bootstrap": "^3.3.7",
     "font-awesome": "^4.6.3",
-    "skeleton": "^2.0.4"
+    "skeleton": "^2.0.4",
+    "jquery.poptrox": "^2.5.0"
   },
   "overrides": {
     "bootstrap": {

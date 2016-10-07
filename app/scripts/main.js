@@ -1,5 +1,8 @@
 document.getElementById('data').addEventListener('click', getHarvardData);
 document.getElementById('data-getty').addEventListener('click', getGettyData);
+$('#js-city').change(function(event) {
+  console.log(event.target.value);
+});
 
 var AppViewModel = function() {
   var self = this;
@@ -26,11 +29,13 @@ function getHarvardData() {
       var mappedObjects = $.map(data.records, function(item) {
         console.log(item);
         // console.log(item.department);
-        var image =  item.primaryimageurl + '?width=600';
+        var imageThumb =  item.primaryimageurl + '?width=600';
         return new ArtObject(
           item.title,
           item.department,
-          image, item.dated,
+          item.primaryimageurl,
+          imageThumb,
+          item.dated,
           item.period,
           item.culture,
           item.dimensions,
@@ -39,6 +44,8 @@ function getHarvardData() {
       });
       console.log(mappedObjects);
       appViewModel.artObjects(mappedObjects);
+      // var foo = $('.poptrox');
+      // foo.poptrox();
   })
   .fail(function(jqXHR, textStatus, errorThrown) {
       console.log("HTTP Request Failed");
@@ -47,6 +54,7 @@ function getHarvardData() {
       /* ... */
   });
 }
+
 
 function getGettyData() {
   $.ajax({
@@ -66,6 +74,7 @@ function getGettyData() {
         return new ArtObject(
           item.PrimaryTitle,
           item.Department,
+          image,
           item.imageThumbURI,
           item.Date,
           item.Place,
