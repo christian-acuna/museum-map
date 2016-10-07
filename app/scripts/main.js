@@ -1,4 +1,5 @@
 document.getElementById('data').addEventListener('click', getHarvardData);
+document.getElementById('data-getty').addEventListener('click', getGettyData);
 
 var AppViewModel = function() {
   var self = this;
@@ -14,8 +15,9 @@ function getHarvardData() {
       url: "http://api.harvardartmuseums.org/object",
       type: "GET",
       data: {
-          "place": "2035838",
+          "place": "2028558",
           "apikey": "0c781bd0-8a9f-11e6-bcde-977dd71a47a9",
+          "keyword": "photographs"
       },
   })
   .done(function(data, textStatus, jqXHR) {
@@ -33,6 +35,43 @@ function getHarvardData() {
           item.culture,
           item.dimensions,
           item.creditline
+        );
+      });
+      console.log(mappedObjects);
+      appViewModel.artObjects(mappedObjects);
+  })
+  .fail(function(jqXHR, textStatus, errorThrown) {
+      console.log("HTTP Request Failed");
+  })
+  .always(function() {
+      /* ... */
+  });
+}
+
+function getGettyData() {
+  $.ajax({
+      url: "../json/香港.json",
+      type: "GET",
+      dataType: "json"
+  })
+  .done(function(data, textStatus, jqXHR) {
+      console.log("HTTP Request Succeeded: " + jqXHR.status);
+      console.log(data.Response.doc.record);
+      var recordArray = data.Response.doc.record;
+      var mappedObjects = $.map(recordArray, function(item) {
+        console.log(item);
+        // console.log(item.department);
+        var image =  item.imageThumbURI.replace("thumbnail", "enlarge");
+        console.log(image);
+        return new ArtObject(
+          item.PrimaryTitle,
+          item.Department,
+          item.imageThumbURI,
+          item.Date,
+          item.Place,
+          item.Place,
+          item.Dimensions,
+          item.Source
         );
       });
       console.log(mappedObjects);
