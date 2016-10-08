@@ -291,12 +291,19 @@ function initMap() {
     });
   }
 
+  function hideMarkers(markers) {
+    markers.forEach(function(marker) {
+      marker.setMap(null);
+    });
+  }
+
   $('#js-city').change(function(event) {
     console.log(event.target.value);
     getGettyData(event.target.value);
   });
 
   function createMarkers(locationsArray) {
+    hideMarkers(markers);
     markers = [];
     var bounds = new google.maps.LatLngBounds();
     locationsArray.forEach(function(loc, index) {
