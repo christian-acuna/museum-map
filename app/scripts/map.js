@@ -242,18 +242,16 @@ var styles = [
   }
 ];
 
-// Request (GET http://api.map.baidu.com/place/v2/search)
+
 
 var markers = [];
-
-
 function initMap() {
   map = new google.maps.Map(document.getElementById('map'), {
     center: {
       lat: 22.396428,
       lng: 114.109497
     },
-    zoom: 10,
+    zoom: 12,
     styles: styles
   });
   var largeInfowindow = new google.maps.InfoWindow();
@@ -280,6 +278,7 @@ function initMap() {
     })
     .done(function(data, textStatus, jqXHR) {
         console.log("HTTP Request Succeeded: " + jqXHR.status);
+        console.log(data);
         locations = data.results;
         createMarkers(locations);
     })
@@ -298,7 +297,6 @@ function initMap() {
   }
 
   $('#js-city').change(function(event) {
-    console.log(event.target.value);
     getGettyData(event.target.value);
   });
 
@@ -307,7 +305,6 @@ function initMap() {
     markers = [];
     var bounds = new google.maps.LatLngBounds();
     locationsArray.forEach(function(loc, index) {
-      // console.log(loc);
       var title = loc.name;
       var position = loc.location;
 
@@ -319,12 +316,11 @@ function initMap() {
       });
 
       marker.addListener('click', function() {
-        // populateInfoWindow(this, largeInfowindow);
         getPlacesDetails(this, largeInfowindow, bounds);
       });
 
       markers.push(marker);
-      // console.log(markers[index].position);
+
       bounds.extend(markers[index].position);
     });
     map.fitBounds(bounds);
@@ -395,4 +391,3 @@ function initMap() {
         });
   }
 }
-// var bounds = new google.maps.LatLngBounds();
