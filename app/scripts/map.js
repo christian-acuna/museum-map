@@ -317,7 +317,13 @@ function initMap() {
 
       marker.addListener('click', function() {
         getPlacesDetails(this, largeInfowindow, bounds);
+
       });
+
+      marker.addListener('mouseover', function() {
+        baiduChangePanoView(loc);
+      });
+
 
       markers.push(marker);
 
@@ -392,11 +398,23 @@ function initMap() {
   }
 
   //全景图展示
+
+  var panorama = new BMap.Panorama('panorama');
+  panorama.setOptions({
+      indoorSceneSwitchControl: true //配置全景室内景切换控件显示
+    });
   function loadbaiduPanorama(){
-    var panorama = new BMap.Panorama('panorama');	//2
-    panorama.setPosition(new BMap.Point(120.320032, 31.589666));	//3
-    // panorama.setId('0100010000130501122416015Z1');
+    // panorama.setPosition(new BMap.Point(120.320032, 31.589666));	//3
+    panorama.setId('0100010000130501122416015Z1');
     panorama.setPov({heading: -40, pitch: 6});	//4
+  }
+
+  function baiduChangePanoView(loc) {
+    // console.log();
+    // console.log(point);
+    // panorama.setPosition(new BMap.Point(loc.location.lng, loc.location.lat));
+    panorama.setId(loc.uid);
+    panorama.setPov({heading: -40, pitch: 6});
   }
 
   loadbaiduPanorama();
