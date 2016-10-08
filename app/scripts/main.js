@@ -1,8 +1,7 @@
 document.getElementById('data').addEventListener('click', getHarvardData);
 document.getElementById('data-getty').addEventListener('click', getGettyData);
-$('#js-city').change(function(event) {
-  console.log(event.target.value);
-});
+
+
 
 var AppViewModel = function() {
   var self = this;
@@ -14,13 +13,29 @@ var appViewModel = new AppViewModel();
 ko.applyBindings(appViewModel);
 
 function getHarvardData() {
+  var location = "";
+  var cityValue = document.getElementById('js-city').value;
+  switch (cityValue) {
+    case '香港':
+      location = '2028558';
+      break;
+    case '北京':
+      location = '2035839';
+      break;
+    case '上海':
+      location = '2040128';
+      break;
+    case '天津':
+      location = '2035836';
+      break;
+  }
   jQuery.ajax({
       url: "http://api.harvardartmuseums.org/object",
       type: "GET",
       data: {
-          "place": "2028558",
-          "apikey": "0c781bd0-8a9f-11e6-bcde-977dd71a47a9",
-          "keyword": "photographs"
+          "place": location,
+          "apikey": "0c781bd0-8a9f-11e6-bcde-977dd71a47a9"
+          // "keyword": "photographs"
       },
   })
   .done(function(data, textStatus, jqXHR) {
@@ -57,8 +72,10 @@ function getHarvardData() {
 
 
 function getGettyData() {
+  var location = "";
+  var cityValue = document.getElementById('js-city').value;
   $.ajax({
-      url: "../json/香港.json",
+      url: '../json/' + cityValue + '.json',
       type: "GET",
       dataType: "json"
   })
