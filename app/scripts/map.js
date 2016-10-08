@@ -265,6 +265,7 @@ function initMap() {
     jQuery.ajax({
         url: "http://api.map.baidu.com/place/v2/search",
         type: "GET",
+        dataType: "jsonp",
         data: {
             "q": "旅游景点",
             "scope": "2",
@@ -274,13 +275,12 @@ function initMap() {
             "ak": "oXmLrK2EjxWxZm1qab51f1fmRLm4I4kF",
             "tag": "null",
             "page_size": "20",
-            "page_num": "0",
+            "page_num": "0"
         }
     })
     .done(function(data, textStatus, jqXHR) {
         console.log("HTTP Request Succeeded: " + jqXHR.status);
-        var parsedData = JSON.parse(data);
-        locations = parsedData.results;
+        locations = data.results;
         createMarkers(locations);
     })
     .fail(function(jqXHR, textStatus, errorThrown) {
