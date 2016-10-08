@@ -76,3 +76,9 @@ html,body{
   top: 50%;
   white-space: nowrap;
 }
+
+#panorama {
+  height: 40%;
+  overflow: hidden;
+  border-radius: 10px;
+}

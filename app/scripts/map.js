@@ -242,18 +242,16 @@ var styles = [
   }
 ];
 
-// Request (GET http://api.map.baidu.com/place/v2/search)
+
 
 var markers = [];
-
-
 function initMap() {
   map = new google.maps.Map(document.getElementById('map'), {
     center: {
       lat: 22.396428,
       lng: 114.109497
     },
-    zoom: 10,
+    zoom: 12,
     styles: styles
   });
   var largeInfowindow = new google.maps.InfoWindow();
@@ -265,6 +263,7 @@ function initMap() {
     jQuery.ajax({
         url: "http://api.map.baidu.com/place/v2/search",
         type: "GET",
+        dataType: "jsonp",
         data: {
             "q": "旅游景点",
             "scope": "2",
@@ -274,13 +273,13 @@ function initMap() {
             "ak": "oXmLrK2EjxWxZm1qab51f1fmRLm4I4kF",
             "tag": "null",
             "page_size": "20",
-            "page_num": "0",
+            "page_num": "0"
         }
     })
     .done(function(data, textStatus, jqXHR) {
         console.log("HTTP Request Succeeded: " + jqXHR.status);
-        var parsedData = JSON.parse(data);
-        locations = parsedData.results;
+        console.log(data);
+        locations = data.results;
         createMarkers(locations);
     })
     .fail(function(jqXHR, textStatus, errorThrown) {
@@ -291,16 +290,21 @@ function initMap() {
     });
   }
 
+  function hideMarkers(markers) {
+    markers.forEach(function(marker) {
+      marker.setMap(null);
+    });
+  }
+
   $('#js-city').change(function(event) {
-    console.log(event.target.value);
     getGettyData(event.target.value);
   });
 
   function createMarkers(locationsArray) {
+    hideMarkers(markers);
     markers = [];
     var bounds = new google.maps.LatLngBounds();
     locationsArray.forEach(function(loc, index) {
-      // console.log(loc);
       var title = loc.name;
       var position = loc.location;
 
@@ -312,12 +316,17 @@ function initMap() {
       });
 
       marker.addListener('click', function() {
-        // populateInfoWindow(this, largeInfowindow);
         getPlacesDetails(this, largeInfowindow, bounds);
+
       });
 
+      // marker.addListener('mouseover', function() {
+      //   baiduChangePanoView(loc);
+      // });
+
+
       markers.push(marker);
-      // console.log(markers[index].position);
+
       bounds.extend(markers[index].position);
     });
     map.fitBounds(bounds);
@@ -349,6 +358,7 @@ function initMap() {
               }, function(place, status) {
                 if (status === google.maps.places.PlacesServiceStatus.OK) {
                   console.log(place);
+                  loadGooglePanorama(place);
                   // Set the marker property on this infowindow so it isn't created again.
                   infowindow.marker = marker;
                   var innerHTML = '<div>';
@@ -387,5 +397,44 @@ function initMap() {
           }
         });
   }
+
+  //全景图展示
+
+
+  function loadGooglePanorama(place){
+    var streetViewService = new google.maps.StreetViewService();
+    var radius = 50;
+
+    function getStreetView(data, status) {
+              if (status == google.maps.StreetViewStatus.OK) {
+                var nearStreetViewLocation = data.location.latLng;
+                var heading = google.maps.geometry.spherical.computeHeading(
+                  nearStreetViewLocation, place.geometry.location);
+                  var panoramaOptions = {
+                    position: nearStreetViewLocation,
+                    pov: {
+                      heading: heading,
+                      pitch: 30
+                    }
+                  };
+                var panorama = new google.maps.StreetViewPanorama(
+                  document.getElementById('panorama'), panoramaOptions);
+              } else {
+                console.log('no pano found');
+                console.log(status);
+              }
+            }
+            // Use streetview service to get the closest streetview image within
+            // 50 meters of the markers position
+            streetViewService.getPanoramaByLocation(place.geometry.location, radius, getStreetView);
+  }
+
+  // function baiduChangePanoView(loc) {
+  //   // console.log();
+  //   // console.log(point);
+  //   // panorama.setPosition(new BMap.Point(loc.location.lng, loc.location.lat));
+  //   panorama.setId(loc.uid);
+  //   panorama.setPov({heading: -40, pitch: 6});
+  // }
+
 }
-// var bounds = new google.maps.LatLngBounds();

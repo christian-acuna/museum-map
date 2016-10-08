@@ -17,7 +17,7 @@ var config      = require('../../config').browsersync.development;
 gulp.task('serve', function() {
   browserSync({
     notify: false,
-    port: 8080,
+    port: 9000,
     server: {
       baseDir: ['.tmp', 'app'],
       routes: {
