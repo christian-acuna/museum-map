@@ -1,9 +1,10 @@
-var ArtObject = function(title, department, image, date, period, culture, dimensions, creditline) {
+var ArtObject = function(title, department, imageLarge, imageThumb, date, period, culture, dimensions, creditline) {
   var self = this;
 
   self.title = title;
   self.department = department;
-  self.imageURL = image;
+  self.imageLarge = imageLarge;
+  self.imageThumb = imageThumb;
   self.date = date;
   self.period = period;
   self.culture = culture;

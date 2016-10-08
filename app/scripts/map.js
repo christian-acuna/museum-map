@@ -1,3 +1,4 @@
+
 var map;
 var styles = [
   {
@@ -241,6 +242,11 @@ var styles = [
   }
 ];
 
+// Request (GET http://api.map.baidu.com/place/v2/search)
+
+var markers = [];
+
+
 function initMap() {
   map = new google.maps.Map(document.getElementById('map'), {
     center: {
@@ -250,4 +256,125 @@ function initMap() {
     zoom: 10,
     styles: styles
   });
+  var largeInfowindow = new google.maps.InfoWindow();
+  var bounds = new google.maps.LatLngBounds();
+  var locations = [];
+  jQuery.ajax({
+      url: "http://api.map.baidu.com/place/v2/search",
+      type: "GET",
+      data: {
+          "q": "旅游景点",
+          "scope": "2",
+          "filter": "sort_name:好评|sort_rule:0",
+          "region": "香港",
+          "output": "json",
+          "ak": "oXmLrK2EjxWxZm1qab51f1fmRLm4I4kF",
+          "tag": "null",
+          "page_size": "20",
+          "page_num": "0",
+      }
+  })
+  .done(function(data, textStatus, jqXHR) {
+      console.log("HTTP Request Succeeded: " + jqXHR.status);
+      var parsedData = JSON.parse(data);
+      locations = parsedData.results;
+      createMarkers(locations);
+  })
+  .fail(function(jqXHR, textStatus, errorThrown) {
+      console.log("HTTP Request Failed");
+  })
+  .always(function() {
+      /* ... */
+  });
+
+  function createMarkers(locationsArray) {
+    locationsArray.forEach(function(loc, index) {
+      // console.log(loc);
+      var title = loc.name;
+      var position = loc.location;
+
+      var marker = new google.maps.Marker({
+        map: map,
+        position: position,
+        title: title,
+        animation: google.maps.Animation.DROP
+      });
+
+      marker.addListener('click', function() {
+        // populateInfoWindow(this, largeInfowindow);
+        getPlacesDetails(this, largeInfowindow);
+      });
+
+      markers.push(marker);
+      // console.log(markers[index].position);
+      bounds.extend(markers[index].position);
+    });
+    map.fitBounds(bounds);
+  }
+
+  function populateInfoWindow(marker, infowindow) {
+    if (infowindow.marker != marker) {
+            googlePlaceSearch(marker);
+            infowindow.marker = marker;
+            infowindow.setContent('<div>' + marker.title + '</div>');
+            infowindow.open(map, marker);
+            // Make sure the marker property is cleared if the infowindow is closed.
+            infowindow.addListener('closeclick',function(){
+              infowindow.setMarker(null);
+            });
+          }
+  }
+
+  function getPlacesDetails(marker, infowindow) {
+    var placesService = new google.maps.places.PlacesService(map);
+        placesService.textSearch({
+          query: marker.title,
+          bounds: bounds
+        }, function(results, status) {
+          if (status === google.maps.places.PlacesServiceStatus.OK) {
+            var service = new google.maps.places.PlacesService(map);
+              service.getDetails({
+                placeId: results[0].place_id
+              }, function(place, status) {
+                if (status === google.maps.places.PlacesServiceStatus.OK) {
+                  console.log(place);
+                  // Set the marker property on this infowindow so it isn't created again.
+                  infowindow.marker = marker;
+                  var innerHTML = '<div>';
+                  if (place.name) {
+                    innerHTML += '<strong>' + place.name + '</strong>';
+                  }
+                  if (place.formatted_address) {
+                    innerHTML += '<br>' + place.formatted_address;
+                  }
+                  if (place.formatted_phone_number) {
+                    innerHTML += '<br>' + place.formatted_phone_number;
+                  }
+                  if (place.opening_hours) {
+                    innerHTML += '<br><br><strong>Hours:</strong><br>' +
+                        place.opening_hours.weekday_text[0] + '<br>' +
+                        place.opening_hours.weekday_text[1] + '<br>' +
+                        place.opening_hours.weekday_text[2] + '<br>' +
+                        place.opening_hours.weekday_text[3] + '<br>' +
+                        place.opening_hours.weekday_text[4] + '<br>' +
+                        place.opening_hours.weekday_text[5] + '<br>' +
+                        place.opening_hours.weekday_text[6];
+                  }
+                  if (place.photos) {
+                    innerHTML += '<br><br><img src="' + place.photos[0].getUrl(
+                        {maxHeight: 100, maxWidth: 200}) + '">';
+                  }
+                  innerHTML += '</div>';
+                  infowindow.setContent(innerHTML);
+                  infowindow.open(map, marker);
+                  // Make sure the marker property is cleared if the infowindow is closed.
+                  infowindow.addListener('closeclick', function() {
+                    infowindow.marker = null;
+                  });
+                }
+              });
+          }
+        });
+  }
 }
+// var bounds = new google.maps.LatLngBounds();
