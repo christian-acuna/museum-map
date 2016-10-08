@@ -320,9 +320,9 @@ function initMap() {
 
       });
 
-      marker.addListener('mouseover', function() {
-        baiduChangePanoView(loc);
-      });
+      // marker.addListener('mouseover', function() {
+      //   baiduChangePanoView(loc);
+      // });
 
 
       markers.push(marker);
@@ -358,6 +358,7 @@ function initMap() {
               }, function(place, status) {
                 if (status === google.maps.places.PlacesServiceStatus.OK) {
                   console.log(place);
+                  loadGooglePanorama(place);
                   // Set the marker property on this infowindow so it isn't created again.
                   infowindow.marker = marker;
                   var innerHTML = '<div>';
@@ -399,23 +400,41 @@ function initMap() {
 
   //全景图展示
 
-  var panorama = new BMap.Panorama('panorama');
-  panorama.setOptions({
-      indoorSceneSwitchControl: true //配置全景室内景切换控件显示
-    });
-  function loadbaiduPanorama(){
-    // panorama.setPosition(new BMap.Point(120.320032, 31.589666));	//3
-    panorama.setId('0100010000130501122416015Z1');
-    panorama.setPov({heading: -40, pitch: 6});	//4
+
+  function loadGooglePanorama(place){
+    var streetViewService = new google.maps.StreetViewService();
+    var radius = 50;
+
+    function getStreetView(data, status) {
+              if (status == google.maps.StreetViewStatus.OK) {
+                var nearStreetViewLocation = data.location.latLng;
+                var heading = google.maps.geometry.spherical.computeHeading(
+                  nearStreetViewLocation, place.geometry.location);
+                  var panoramaOptions = {
+                    position: nearStreetViewLocation,
+                    pov: {
+                      heading: heading,
+                      pitch: 30
+                    }
+                  };
+                var panorama = new google.maps.StreetViewPanorama(
+                  document.getElementById('panorama'), panoramaOptions);
+              } else {
+                console.log('no pano found');
+                console.log(status);
+              }
+            }
+            // Use streetview service to get the closest streetview image within
+            // 50 meters of the markers position
+            streetViewService.getPanoramaByLocation(place.geometry.location, radius, getStreetView);
   }
 
-  function baiduChangePanoView(loc) {
-    // console.log();
-    // console.log(point);
-    // panorama.setPosition(new BMap.Point(loc.location.lng, loc.location.lat));
-    panorama.setId(loc.uid);
-    panorama.setPov({heading: -40, pitch: 6});
-  }
+  // function baiduChangePanoView(loc) {
+  //   // console.log();
+  //   // console.log(point);
+  //   // panorama.setPosition(new BMap.Point(loc.location.lng, loc.location.lat));
+  //   panorama.setId(loc.uid);
+  //   panorama.setPov({heading: -40, pitch: 6});
+  // }
 
-  loadbaiduPanorama();
 }
