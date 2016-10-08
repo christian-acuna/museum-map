@@ -257,37 +257,48 @@ function initMap() {
     styles: styles
   });
   var largeInfowindow = new google.maps.InfoWindow();
-  var bounds = new google.maps.LatLngBounds();
+
   var locations = [];
-  jQuery.ajax({
-      url: "http://api.map.baidu.com/place/v2/search",
-      type: "GET",
-      data: {
-          "q": "旅游景点",
-          "scope": "2",
-          "filter": "sort_name:好评|sort_rule:0",
-          "region": "香港",
-          "output": "json",
-          "ak": "oXmLrK2EjxWxZm1qab51f1fmRLm4I4kF",
-          "tag": "null",
-          "page_size": "20",
-          "page_num": "0",
-      }
-  })
-  .done(function(data, textStatus, jqXHR) {
-      console.log("HTTP Request Succeeded: " + jqXHR.status);
-      var parsedData = JSON.parse(data);
-      locations = parsedData.results;
-      createMarkers(locations);
-  })
-  .fail(function(jqXHR, textStatus, errorThrown) {
-      console.log("HTTP Request Failed");
-  })
-  .always(function() {
-      /* ... */
+  getGettyData('香港');
+
+  function getGettyData(location) {
+    jQuery.ajax({
+        url: "http://api.map.baidu.com/place/v2/search",
+        type: "GET",
+        data: {
+            "q": "旅游景点",
+            "scope": "2",
+            "filter": "sort_name:好评|sort_rule:0",
+            "region": location,
+            "output": "json",
+            "ak": "oXmLrK2EjxWxZm1qab51f1fmRLm4I4kF",
+            "tag": "null",
+            "page_size": "20",
+            "page_num": "0",
+        }
+    })
+    .done(function(data, textStatus, jqXHR) {
+        console.log("HTTP Request Succeeded: " + jqXHR.status);
+        var parsedData = JSON.parse(data);
+        locations = parsedData.results;
+        createMarkers(locations);
+    })
+    .fail(function(jqXHR, textStatus, errorThrown) {
+        console.log("HTTP Request Failed");
+    })
+    .always(function() {
+        /* ... */
+    });
+  }
+
+  $('#js-city').change(function(event) {
+    console.log(event.target.value);
+    getGettyData(event.target.value);
   });
 
   function createMarkers(locationsArray) {
+    markers = [];
+    var bounds = new google.maps.LatLngBounds();
     locationsArray.forEach(function(loc, index) {
       // console.log(loc);
       var title = loc.name;
@@ -302,7 +313,7 @@ function initMap() {
 
       marker.addListener('click', function() {
         // populateInfoWindow(this, largeInfowindow);
-        getPlacesDetails(this, largeInfowindow);
+        getPlacesDetails(this, largeInfowindow, bounds);
       });
 
       markers.push(marker);
@@ -325,7 +336,7 @@ function initMap() {
           }
   }
 
-  function getPlacesDetails(marker, infowindow) {
+  function getPlacesDetails(marker, infowindow, bounds) {
     var placesService = new google.maps.places.PlacesService(map);
         placesService.textSearch({
           query: marker.title,

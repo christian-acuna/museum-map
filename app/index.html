@@ -36,8 +36,8 @@
       <div class="form-group col-md-12">
         <label for="sel1">Select list:</label>
           <select class="form-control" id="js-city">
-            <option value="北京">Beijing | 北京</option>
             <option value="香港">Hong Kong | 香港</option>
+            <option value="北京">Beijing | 北京</option>
             <option value="上海">Shanghai | 上海</option>
             <option value="天津">Tianjin | 天津</option>
         </select>
@@ -49,7 +49,9 @@
       </div>
 
       <!-- item list -->
-      <div class="poptrox"data-bind="foreach: artObjects">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="poptrox"data-bind="foreach: artObjects">
         <h5 data-bind="html: title"></h5>
         <a data-bind="attr: { href: imageLarge }"><img class="image thumb img-rounded img-responsive center-block" data-bind="attr: {src: imageThumb, alt: title }" /></a>
         <ul class="list-unstyled">
@@ -61,6 +63,9 @@
         </ul>
         <hr>
       </div>
+      </div>
+
+    </div>
       <!-- /item list -->
 
     </div>
