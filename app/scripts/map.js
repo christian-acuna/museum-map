@@ -390,4 +390,14 @@ function initMap() {
           }
         });
   }
+
+  //全景图展示
+  function loadbaiduPanorama(){
+    var panorama = new BMap.Panorama('panorama');	//2
+    panorama.setPosition(new BMap.Point(120.320032, 31.589666));	//3
+    // panorama.setId('0100010000130501122416015Z1');
+    panorama.setPov({heading: -40, pitch: 6});	//4
+  }
+
+  loadbaiduPanorama();
 }

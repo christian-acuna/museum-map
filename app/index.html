@@ -42,16 +42,22 @@
             <option value="天津">Tianjin | 天津</option>
         </select>
       </div>
+      <div class="row">
+        <div class="col-md-12">
+
+        </div>
+      </div>
 
       <div class="col-md-8 col-md-offset-2">
-        <button type="button" id="data"name="button">Harvard Art Museum</button>
-        <button type="button" id="data-getty"name="button">Getty Museum</button>
+        <button type="button" id="data" name="button">Harvard Art Museum</button>
+        <button type="button" id="data-getty" name="button">Getty Museum</button>
       </div>
+      <div id="panorama" style="width:100%"></div>
 
       <!-- item list -->
     <div class="row">
       <div class="col-md-12">
-        <div class="poptrox"data-bind="foreach: artObjects">
+        <div data-bind="foreach: artObjects">
         <h5 data-bind="html: title"></h5>
         <a data-bind="attr: { href: imageLarge }"><img class="image thumb img-rounded img-responsive center-block" data-bind="attr: {src: imageThumb, alt: title }" /></a>
         <ul class="list-unstyled">
@@ -85,6 +91,7 @@
     <!-- endbower -->
     <!-- endbuild -->
 
+   <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=oXmLrK2EjxWxZm1qab51f1fmRLm4I4kF"></script>
     <!-- build:js scripts/main.js -->
 
     <script src="scripts/map.js"></script>
