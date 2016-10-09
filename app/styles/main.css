@@ -74,6 +74,60 @@ html, body{
   width: 50%;
 }
 
+#right-panel {
+  /*font-family: 'Roboto','sans-serif';*/
+  line-height: 30px;
+  padding-left: 10px;
+}
+
+#right-panel select, #right-panel input {
+  font-size: 15px;
+}
+
+#right-panel select {
+  width: 100%;
+}
+
+#right-panel i {
+  font-size: 12px;
+}
+#right-panel {
+  /*font-family: Arial, Helvetica, sans-serif;*/
+  position: absolute;
+  right: 100px;
+  top: 90%;
+  margin-top: -195px;
+  height: 250px;
+  width: 400px;
+  padding: 5px;
+  z-index: 5;
+  border: 1px solid #999;
+  background: #fff;
+}
+#places {
+  list-style-type: upper-latin;
+  padding: 0;
+  margin: 0;
+  height: 130px;
+  width: 390px;
+  overflow-y: scroll;
+}
+.list {
+  background-color: #f1f1f1;
+  padding: 10px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.list:nth-child(odd) {
+  background-color: #fcfcfc;
+}
+
+#more {
+  width: 100%;
+  margin: 5px 0 0 0;
+}
+
 @media screen and (max-width: 991px) {
   #map {
   	width:100%;

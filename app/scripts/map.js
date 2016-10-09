@@ -257,9 +257,9 @@ function initMap() {
   var largeInfowindow = new google.maps.InfoWindow();
 
   var locations = [];
-  getGettyData('香港');
+  getBaiduData('香港');
 
-  function getGettyData(location) {
+  function getBaiduData(location) {
     jQuery.ajax({
         url: "http://api.map.baidu.com/place/v2/search",
         type: "GET",
@@ -297,27 +297,32 @@ function initMap() {
   }
 
   $('#js-city').change(function(event) {
-    getGettyData(event.target.value);
+    getBaiduData(event.target.value);
   });
 
   function createMarkers(locationsArray) {
     hideMarkers(markers);
     markers = [];
+    var placesList = document.getElementById('places');
+    placesList.innerHTML = '';
     var bounds = new google.maps.LatLngBounds();
     locationsArray.forEach(function(loc, index) {
       var title = loc.name;
       var position = loc.location;
+      var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
       var marker = new google.maps.Marker({
         map: map,
         position: position,
         title: title,
-        animation: google.maps.Animation.DROP
+        animation: google.maps.Animation.DROP,
+        label: labels[index]
       });
+
+      placesList.innerHTML += '<li class="list">' + title + '</li>';
 
       marker.addListener('click', function() {
         getPlacesDetails(this, largeInfowindow, bounds);
-
       });
 
       // marker.addListener('mouseover', function() {
