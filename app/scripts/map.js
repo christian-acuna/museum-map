@@ -446,7 +446,7 @@ function initMap() {
                 // var pano = document.getElementById('panorama');
                 // var noPano = $('<h3>No Pano</h3>');
                 // pano.append(noPano);
-                pano.hide();
+                pano.css("display","none");
                 $("#noPano").fadeIn('slow').animate({opacity: 1.0}, 2500).fadeOut('slow');
                 // pano.css('display', '');
                 console.log('no pano found');

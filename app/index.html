@@ -30,9 +30,9 @@
 <div id="map"></div>
 <div class="container-fluid" id="main">
   <div class="row">
-  	<div class="col-xs-6" id="left">
+  	<div class="col-md-6 col-xs-12" id="left">
 
-      <h2>Lens of China</h2>
+      <h2 class="text-center">Lens of China</h2>
       <div class="form-group col-md-12">
         <label for="sel1">Select list:</label>
           <select class="form-control" id="js-city">
@@ -42,11 +42,11 @@
             <option value="天津">Tianjin | 天津</option>
         </select>
       </div>
-      <div class="row">
+      <!-- <div class="row">
         <div class="col-md-12">
 
         </div>
-      </div>
+      </div> -->
 
       <div class="col-md-8 col-md-offset-2">
         <button type="button" id="data" name="button">Harvard Art Museum</button>
@@ -59,23 +59,28 @@
           <div id="noPano" class="alert alert-warning"><strong>No Panorama!</strong> Sorry, but no panorama was found for this location.</div>
         </div>
       </div>
-      <!-- <div id="baidupano" style="width:100%"></div> -->
 
       <!-- item list -->
     <div class="row">
       <div class="col-md-12">
         <div data-bind="foreach: artObjects">
-        <h5 data-bind="html: title"></h5>
-        <a data-bind="attr: { href: imageLarge }"><img class="image thumb img-rounded img-responsive center-block" data-bind="attr: {src: imageThumb, alt: title }" /></a>
-        <ul class="list-unstyled">
-          <li><span data-bind="html: date"></span> | <span data-bind="html: period"></span></li>
-          <li data-bind="text: department"></li>
-          <li data-bind="html: culture"></li>
-          <li data-bind="html: dimensions"></li>
-          <li data-bind="text: creditline"></li>
-        </ul>
-        <hr>
-      </div>
+          <div class="flex">
+            <div class="image-container">
+              <a target="_blank" data-bind="attr: { href: imageLarge }"><img class="center-block img-rounded img-responsive" data-bind="attr: {src: imageThumb, alt: title }" /></a>
+            </div>
+            <div class="text-container">
+              <h5 data-bind="html: title"></h5>
+              <ul class="list-unstyled">
+                <li><span data-bind="html: date"></span> | <span data-bind="html: period"></span></li>
+                <li data-bind="text: department"></li>
+                <li data-bind="html: culture"></li>
+                <li data-bind="html: dimensions"></li>
+                <li data-bind="text: creditline"></li>
+              </ul>
+            </div>
+            <hr>
+          </div>
+        </div>
       </div>
 
     </div>
