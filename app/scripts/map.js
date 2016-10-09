@@ -400,13 +400,36 @@ function initMap() {
 
   //全景图展示
 
+  // var panorama = new BMap.Panorama('baidupano');
+  // panorama.setOptions({
+  //     indoorSceneSwitchControl: true //配置全景室内景切换控件显示
+  //   });
+  //
+  // function loadbaiduPanorama(){
+  //   panorama.setPosition(new BMap.Point(120.320032, 31.589666));	//3
+  //   // panorama.setId('0100010000130501122416015Z1');
+  //   panorama.setPov({heading: -40, pitch: 6});	//4
+  // }
+
+  // function baiduChangePanoView(loc) {
+  //   // console.log();
+  //   // console.log(point);
+  //   // panorama.setPosition(new BMap.Point(loc.location.lng, loc.location.lat));
+  //   panorama.setId(loc.uid);
+  //   panorama.setPov({heading: -40, pitch: 6});
+  // }
+  //
+  // loadbaiduPanorama();
+
 
   function loadGooglePanorama(place){
     var streetViewService = new google.maps.StreetViewService();
     var radius = 50;
 
     function getStreetView(data, status) {
+              var pano = $('#panorama');
               if (status == google.maps.StreetViewStatus.OK) {
+                pano.show();
                 var nearStreetViewLocation = data.location.latLng;
                 var heading = google.maps.geometry.spherical.computeHeading(
                   nearStreetViewLocation, place.geometry.location);
@@ -414,16 +437,18 @@ function initMap() {
                     position: nearStreetViewLocation,
                     pov: {
                       heading: heading,
-                      pitch: 30
+                      pitch: 10
                     }
                   };
                 var panorama = new google.maps.StreetViewPanorama(
                   document.getElementById('panorama'), panoramaOptions);
               } else {
-                var pano = document.getElementById('panorama');
-                var noPano = $('<h3>No Pano</h3>');
-                pano.append(noPano);
-                pano.innerHTML = '';
+                // var pano = document.getElementById('panorama');
+                // var noPano = $('<h3>No Pano</h3>');
+                // pano.append(noPano);
+                pano.hide();
+                $("#noPano").fadeIn('slow').animate({opacity: 1.0}, 2500).fadeOut('slow');
+                // pano.css('display', '');
                 console.log('no pano found');
                 console.log(status);
               }

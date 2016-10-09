@@ -77,9 +77,13 @@ html,body{
   white-space: nowrap;
 }
 
-#panorama,
-#baidupano {
+#panorama{
   height: 40%;
   overflow: hidden;
   border-radius: 10px;
+  width:100%;
+}
+
+#noPano {
+  display: none;
 }

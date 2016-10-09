@@ -51,9 +51,15 @@
       <div class="col-md-8 col-md-offset-2">
         <button type="button" id="data" name="button">Harvard Art Museum</button>
         <button type="button" id="data-getty" name="button">Getty Museum</button>
+
       </div>
-      <div id="panorama" style="width:100%"></div>
-      <div id="baidupano" style="width:100%"></div>
+      <div id="panorama"></div>
+      <div class="row">
+        <div class="col-md-12">
+          <div id="noPano" class="alert alert-warning"><strong>No Panorama!</strong> Sorry, but no panorama was found for this location.</div>
+        </div>
+      </div>
+      <!-- <div id="baidupano" style="width:100%"></div> -->
 
       <!-- item list -->
     <div class="row">
@@ -92,7 +98,7 @@
     <!-- endbower -->
     <!-- endbuild -->
 
-   <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=oXmLrK2EjxWxZm1qab51f1fmRLm4I4kF"></script>
+   <!-- <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=oXmLrK2EjxWxZm1qab51f1fmRLm4I4kF"></script> -->
     <!-- build:js scripts/main.js -->
 
     <script src="scripts/map.js"></script>
