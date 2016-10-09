@@ -420,6 +420,10 @@ function initMap() {
                 var panorama = new google.maps.StreetViewPanorama(
                   document.getElementById('panorama'), panoramaOptions);
               } else {
+                var pano = document.getElementById('panorama');
+                var noPano = $('<h3>No Pano</h3>');
+                pano.append(noPano);
+                pano.innerHTML = '';
                 console.log('no pano found');
                 console.log(status);
               }

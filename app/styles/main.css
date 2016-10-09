@@ -77,7 +77,8 @@ html,body{
   white-space: nowrap;
 }
 
-#panorama {
+#panorama,
+#baidupano {
   height: 40%;
   overflow: hidden;
   border-radius: 10px;

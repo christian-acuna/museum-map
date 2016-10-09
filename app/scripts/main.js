@@ -75,7 +75,7 @@ function getGettyData() {
   var location = "";
   var cityValue = document.getElementById('js-city').value;
   $.ajax({
-      url: '../json/' + cityValue + '.json',
+      url: '../json/' + cityValtue + '.json',
       type: "GET",
       dataType: "json"
   })
