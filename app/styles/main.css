@@ -84,8 +84,7 @@ html, body{
 }
 
 #right-panel {
-  /*font-family: 'Roboto','sans-serif';*/
-  line-height: 30px;
+  line-height: 10px;
   padding-left: 10px;
 }
 
@@ -101,13 +100,12 @@ html, body{
   font-size: 12px;
 }
 #right-panel {
-  /*font-family: Arial, Helvetica, sans-serif;*/
   position: absolute;
   right: 100px;
   top: 90%;
   margin-top: -195px;
-  height: 250px;
-  width: 400px;
+  height: 200px;
+  width: 500px;
   padding: 5px;
   z-index: 5;
   border: 1px solid #999;
@@ -118,7 +116,7 @@ html, body{
   padding: 0;
   margin: 0;
   height: 130px;
-  width: 390px;
+  width: 490px;
   overflow-y: scroll;
 }
 .list {
@@ -137,6 +135,95 @@ html, body{
   margin: 5px 0 0 0;
 }
 
+/* ACTIVITY INDICATION */
+
+#imagelightbox-loading, #imagelightbox-loading div {
+  border-radius: 50%;
+}
+
+#imagelightbox-loading {
+  width: 2.5em;
+  /* 40 */
+  height: 2.5em;
+  /* 40 */
+  background-color: #444;
+  background-color: rgba( 0, 0, 0, .5);
+  position: fixed;
+  z-index: 10003;
+  top: 50%;
+  left: 50%;
+  padding: 0.625em;
+  /* 10 */
+  margin: -1.25em 0 0 -1.25em;
+  /* 20 */
+  -webkit-box-shadow: 0 0 2.5em rgba( 0, 0, 0, .75);
+  /* 40 */
+  box-shadow: 0 0 2.5em rgba( 0, 0, 0, .75);
+  /* 40 */
+}
+
+#imagelightbox-loading div {
+  width: 1.25em;
+  /* 20 */
+  height: 1.25em;
+  /* 20 */
+  background-color: #fff;
+  -webkit-animation: imagelightbox-loading .5s ease infinite;
+  animation: imagelightbox-loading .5s ease infinite;
+}
+
+@-webkit-keyframes imagelightbox-loading {
+  from {
+    opacity: .5;
+    -webkit-transform: scale( .75);
+  }
+  50% {
+    opacity: 1;
+    -webkit-transform: scale( 1);
+  }
+  to {
+    opacity: .5;
+    -webkit-transform: scale( .75);
+  }
+}
+
+@keyframes imagelightbox-loading {
+  from {
+    opacity: .5;
+    transform: scale( .75);
+  }
+  50% {
+    opacity: 1;
+    transform: scale( 1);
+  }
+  to {
+    opacity: .5;
+    transform: scale( .75);
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  #right-panel {
+    position: absolute;
+    right: 100px;
+    top: 99%;
+    margin-top: -195px;
+    height: 150px;
+    width: 400px;
+    padding: 5px;
+    z-index: 5;
+    border: 1px solid #999;
+    background: #fff;
+  }
+  #places {
+    list-style-type: upper-latin;
+    padding: 0;
+    margin: 0;
+    height: 80px;
+    width: 390px;
+    overflow-y: scroll;
+  }
+}
 @media screen and (max-width: 991px) {
   #map {
   	width:100%;
@@ -159,6 +246,40 @@ html, body{
 
   #left {
     margin-top: 270px;
+  }
+
+  #right-panel {
+    position: absolute;
+    right: 0;
+    left: 2px;
+    top: 242px;
+    margin-top: -195px;
+    height: 200px;
+    width: 130px;
+    padding: 5px;
+    z-index: 5;
+    border: 1px solid #999;
+    background: #fff;
+  }
+
+  #places {
+    list-style-type: upper-latin;
+    padding: 0;
+    margin: 0;
+    height: 170px;
+    width: 120px;
+    overflow-y: scroll;
+  }
+  .places-title {
+    font-size: 1.7rem;
+    margin-bottom: 0;
+  }
+  .list {
+    padding: 5px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    font-size: 0.8em;
   }
 }
 

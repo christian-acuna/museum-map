@@ -271,7 +271,7 @@ function initMap() {
             'region': location,
             'output': 'json',
             'ak': 'oXmLrK2EjxWxZm1qab51f1fmRLm4I4kF',
-            'tag': 'null',
+            // 'tag': 'null',
             'page_size': '20',
             'page_num': '0'
         }
@@ -319,6 +319,8 @@ function initMap() {
         label: labels[index]
       });
 
+      googleTranslateBaidu(title);
+
       placesList.innerHTML += '<li class="list">' + title + '</li>';
 
       marker.addListener('click', function() {
@@ -335,6 +337,31 @@ function initMap() {
       bounds.extend(markers[index].position);
     });
     map.fitBounds(bounds);
+  }
+
+  function googleTranslateBaidu(word) {
+    // (GET https://www.googleapis.com/language/translate/v2)
+
+  jQuery.ajax({
+      url: "https://www.googleapis.com/language/translate/v2",
+      type: "GET",
+      data: {
+          "key": "AIzaSyAzaEzWmHAh91ZM2kLFg0wE4oGsXujnDpc",
+          "q": word,
+          "source": "zh-CN",
+          "target": "en",
+      },
+  })
+  .done(function(data, textStatus, jqXHR) {
+      console.log("HTTP Request Succeeded: " + jqXHR.status);
+      console.log(data.data.translations[0].translatedText);
+  })
+  .fail(function(jqXHR, textStatus, errorThrown) {
+      console.log("HTTP Request Failed");
+  })
+  .always(function() {
+      /* ... */
+  });
   }
 
   function populateInfoWindow(marker, infowindow) {
