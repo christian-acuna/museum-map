@@ -1,4 +1,3 @@
-
 var map;
 var styles = [
   {
@@ -243,6 +242,7 @@ var styles = [
 ];
 
 var markers = [];
+var tags = [];
 function initMap() {
   map = new google.maps.Map(document.getElementById('map'), {
     center: {
@@ -275,15 +275,11 @@ function initMap() {
     })
     .done(function(data, textStatus, jqXHR) {
         console.log('HTTP Request Succeeded: ' + jqXHR.status);
-        console.log(data);
         locations = data.results;
         createMarkers(locations);
     })
     .fail(function(jqXHR, textStatus, errorThrown) {
         console.log('HTTP Request Failed');
-    })
-    .always(function() {
-        /* ... */
     });
   }
 
@@ -300,14 +296,20 @@ function initMap() {
   function createMarkers(locationsArray) {
     hideMarkers(markers);
     markers = [];
+    tags = [];
     var placesList = $('#places');
-    placesList.innerHTML = '';
+    placesList.empty();
     var bounds = new google.maps.LatLngBounds();
     locationsArray.forEach(function(loc, index) {
       var title = loc.name;
       var position = loc.location;
+      var tag = loc.detail_info.tag.split(';');
+      console.log(tag);
       var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-      var rating = loc.detail_info.overall_rating;
+      var rating = 'N/A';
+      if (loc.detail_info) {
+        rating = loc.detail_info.overall_rating;
+      }
 
 
       var marker = new google.maps.Marker({
@@ -318,14 +320,13 @@ function initMap() {
         label: labels[index]
       });
 
-      var listEl =  $('<li class="list">' + title + ' <br> Rating: ' + rating.toString() + '</li> ');
+      var listEl =  $('<li class="list">' + title + ' <br> Rating: ' + rating + '</li> ');
 
       listEl.click(function(event) {
         console.log(event);
         getPlacesDetails(marker, largeInfowindow, bounds, loc);
       });
       placesList.append(listEl);
-      // placesList.innerHTML += '<li class="list">' + title + ' <br> Rating: ' + rating.toString() + '</li> ';
 
       marker.addListener('click', function() {
         getPlacesDetails(this, largeInfowindow, bounds, loc);
@@ -393,6 +394,7 @@ function initMap() {
               }, function(place, status) {
                 if (status === google.maps.places.PlacesServiceStatus.OK) {
                   console.log(place);
+                  console.log(loc);
                   loadGooglePanorama(place);
                   // Set the marker property on this infowindow so it isn't created again.
                   infowindow.marker = marker;
@@ -406,6 +408,19 @@ function initMap() {
                   if (place.formatted_phone_number) {
                     innerHTML += '<br>' + place.formatted_phone_number;
                   }
+
+                  if (loc.detail_info) {
+                    // Baidu rating
+                    if (loc.detail_info.overall_rating) {
+                      innerHTML += '<br> Baidu Rating: ' + loc.detail_info.overall_rating;
+                    }
+                    // Baidu price
+                    if (loc.detail_info.price) {
+                      innerHTML += '<br> Price: ' + loc.detail_info.price + ' 元';
+                    }
+
+                  }
+
                   if (place.opening_hours) {
                     innerHTML += '<br><br><strong>Hours:</strong><br>' +
                         place.opening_hours.weekday_text[0] + '<br>' +
@@ -434,6 +449,7 @@ function initMap() {
   }
 
   //全景图展示
+  //Baidu Pano
 
   // var panorama = new BMap.Panorama('baidupano');
   // panorama.setOptions({
@@ -478,14 +494,8 @@ function initMap() {
                 var panorama = new google.maps.StreetViewPanorama(
                   document.getElementById('panorama'), panoramaOptions);
               } else {
-                // var pano = document.getElementById('panorama');
-                // var noPano = $('<h3>No Pano</h3>');
-                // pano.append(noPano);
                 pano.css('display','none');
                 $('#noPano').fadeIn('slow').animate({opacity: 1.0}, 2500).fadeOut('slow');
-                // pano.css('display', '');
-                console.log('no pano found');
-                console.log(status);
               }
             }
             // Use streetview service to get the closest streetview image within

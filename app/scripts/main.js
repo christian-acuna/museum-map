@@ -37,10 +37,10 @@ function getHarvardData() {
     }
   }).done(function(data, textStatus, jqXHR) {
     console.log('HTTP Request Succeeded: ' + jqXHR.status);
-    console.log(data);
+    if (data.records.length === 0) {
+      $('#noData').fadeIn('slow').animate({opacity: 1.0}, 2500).fadeOut('slow');
+    }
     var mappedObjects = $.map(data.records, function(item) {
-      console.log(item);
-      // console.log(item.department);
       var imageThumb = item.primaryimageurl + '?width=600';
       return new ArtObject(item.title, item.department, item.primaryimageurl, imageThumb, item.dated, item.period, item.culture, item.dimensions, item.creditline);
     });
@@ -63,11 +63,8 @@ function getGettyData() {
     dataType: 'json'
   }).done(function(data, textStatus, jqXHR) {
     console.log('HTTP Request Succeeded: ' + jqXHR.status);
-    console.log(data.Response.doc.record);
     var recordArray = data.Response.doc.record;
     var mappedObjects = $.map(recordArray, function(item) {
-      console.log(item);
-      // console.log(item.department);
       var image = item.imageThumbURI.replace('thumbnail', 'enlarge');
       console.log(image);
       return new ArtObject(item.PrimaryTitle, item.Department, image, item.imageThumbURI, item.Date, item.Place, item.Place, item.Dimensions, item.Source);

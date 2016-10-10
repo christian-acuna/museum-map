@@ -1,15 +1,3 @@
-/**/
-/*
-A custom Bootstrap 3.1 theme from http://bootply.com\
-
-This CSS code should follow the 'bootstrap.css'
-in your HTML file.
-
-license: MIT
-author: bootply.com
-*/
-
-
 html, body{
   height:100%;
 }
@@ -36,7 +24,7 @@ html, body{
   overflow:hidden;
 }
 
-#panorama{
+#panorama {
   display: none;
   height: 40%;
   overflow: hidden;
@@ -46,8 +34,7 @@ html, body{
 
 }
 
-#imagelightbox
-{
+#imagelightbox {
     position: fixed;
     z-index: 9999;
 
@@ -55,7 +42,8 @@ html, body{
     touch-action: none;
 }
 
-#noPano {
+#noPano,
+#noData {
   display: none;
 }
 
