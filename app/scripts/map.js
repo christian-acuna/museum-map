@@ -304,7 +304,7 @@ function initMap() {
     locationsArray.forEach(function(loc, index) {
       var title = loc.name;
       var position = loc.location;
-      
+
       if (loc.detail_info) {
         tagArray = loc.detail_info.tag.split(';');
         tagArray.forEach(function(singleTag) {
@@ -360,7 +360,8 @@ function initMap() {
 
     var formText = '<select class="form-control">';
     uniqueTags.forEach(function(tag) {
-      formText +=  '<option value="' + tag + '">' + tag + '</option>';
+      googleTranslateBaidu(tag);
+      formText +=  '<option id="' + tag + '" value="' + tag + '">' + tag + '</option>';
     });
 
     formText += '</select>';
@@ -377,32 +378,36 @@ function initMap() {
     //   </select>
   }
 
-  // function googleTranslateBaidu(word) {
-  //   // (GET https://www.googleapis.com/language/translate/v2)
-  //   var translatedWord = 'No Word Found';
-  // jQuery.ajax({
-  //     url: "https://www.googleapis.com/language/translate/v2",
-  //     type: "GET",
-  //     data: {
-  //         "key": "AIzaSyAzaEzWmHAh91ZM2kLFg0wE4oGsXujnDpc",
-  //         "q": word,
-  //         "source": "zh-CN",
-  //         "target": "en",
-  //     },
-  // })
-  // .done(function(data, textStatus, jqXHR) {
-  //     console.log("HTTP Request Succeeded: " + jqXHR.status);
-  //     translatedWord = data.data.translations[0].translatedText;
-  // })
-  // .fail(function(jqXHR, textStatus, errorThrown) {
-  //     console.log("HTTP Request Failed");
-  // })
-  // .always(function() {
-  //     /* ... */
-  // });
-  //
-  // return translatedWord;
-  // }
+  function googleTranslateBaidu(word) {
+    // (GET https://www.googleapis.com/language/translate/v2)
+    var translatedWord = 'No Word Found';
+  jQuery.ajax({
+      url: "https://www.googleapis.com/language/translate/v2",
+      type: "GET",
+      data: {
+          "key": "AIzaSyAzaEzWmHAh91ZM2kLFg0wE4oGsXujnDpc",
+          "q": word,
+          "source": "zh-CN",
+          "target": "en",
+      },
+  })
+  .done(function(data, textStatus, jqXHR) {
+      console.log("HTTP Request Succeeded: " + jqXHR.status);
+      translatedWord = data.data.translations[0].translatedText;
+      addTranslation(word, translatedWord);
+      console.log(translatedWord);
+  })
+  .fail(function(jqXHR, textStatus, errorThrown) {
+      console.log("HTTP Request Failed");
+  })
+  .always(function() {
+      /* ... */
+  });
+}
+  function addTranslation(word, translatedWord) {
+    var filterOption = $('#' + word);
+    filterOption.append(' | ' + translatedWord);
+  }
 
   function populateInfoWindow(marker, infowindow) {
     if (infowindow.marker != marker) {
