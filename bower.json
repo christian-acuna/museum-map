@@ -21,12 +21,14 @@
     "bootstrap": "^3.3.7",
     "font-awesome": "^4.6.3",
     "skeleton": "^2.0.4",
-    "jquery.poptrox": "^2.5.0"
+    "imagelightbox": "imagelightbox2#^0.5.3",
+    "underscore": "^1.8.3"
   },
   "overrides": {
     "bootstrap": {
       "main": [
-        "dist/css/bootstrap.min.css"
+        "dist/css/bootstrap.min.css",
+        "dist/js/bootstrap.min.js"
       ]
     },
     "font-awesome": {

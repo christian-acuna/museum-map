@@ -1,250 +1,248 @@
-
 var map;
 var styles = [
   {
-    "elementType": "geometry",
-    "stylers": [
+    'elementType': 'geometry',
+    'stylers': [
       {
-        "color": "#ebe3cd"
+        'color': '#ebe3cd'
       }
     ]
   },
   {
-    "elementType": "labels.text.fill",
-    "stylers": [
+    'elementType': 'labels.text.fill',
+    'stylers': [
       {
-        "color": "#523735"
+        'color': '#523735'
       }
     ]
   },
   {
-    "elementType": "labels.text.stroke",
-    "stylers": [
+    'elementType': 'labels.text.stroke',
+    'stylers': [
       {
-        "color": "#f5f1e6"
+        'color': '#f5f1e6'
       }
     ]
   },
   {
-    "featureType": "administrative",
-    "elementType": "geometry.stroke",
-    "stylers": [
+    'featureType': 'administrative',
+    'elementType': 'geometry.stroke',
+    'stylers': [
       {
-        "color": "#c9b2a6"
+        'color': '#c9b2a6'
       }
     ]
   },
   {
-    "featureType": "administrative.land_parcel",
-    "elementType": "geometry.stroke",
-    "stylers": [
+    'featureType': 'administrative.land_parcel',
+    'elementType': 'geometry.stroke',
+    'stylers': [
       {
-        "color": "#dcd2be"
+        'color': '#dcd2be'
       }
     ]
   },
   {
-    "featureType": "administrative.land_parcel",
-    "elementType": "labels.text.fill",
-    "stylers": [
+    'featureType': 'administrative.land_parcel',
+    'elementType': 'labels.text.fill',
+    'stylers': [
       {
-        "color": "#ae9e90"
+        'color': '#ae9e90'
       }
     ]
   },
   {
-    "featureType": "landscape.natural",
-    "elementType": "geometry",
-    "stylers": [
+    'featureType': 'landscape.natural',
+    'elementType': 'geometry',
+    'stylers': [
       {
-        "color": "#dfd2ae"
+        'color': '#dfd2ae'
       }
     ]
   },
   {
-    "featureType": "poi",
-    "elementType": "geometry",
-    "stylers": [
+    'featureType': 'poi',
+    'elementType': 'geometry',
+    'stylers': [
       {
-        "color": "#dfd2ae"
+        'color': '#dfd2ae'
       }
     ]
   },
   {
-    "featureType": "poi",
-    "elementType": "labels.text.fill",
-    "stylers": [
+    'featureType': 'poi',
+    'elementType': 'labels.text.fill',
+    'stylers': [
       {
-        "color": "#93817c"
+        'color': '#93817c'
       }
     ]
   },
   {
-    "featureType": "poi.park",
-    "elementType": "geometry.fill",
-    "stylers": [
+    'featureType': 'poi.park',
+    'elementType': 'geometry.fill',
+    'stylers': [
       {
-        "color": "#a5b076"
+        'color': '#a5b076'
       }
     ]
   },
   {
-    "featureType": "poi.park",
-    "elementType": "labels.text.fill",
-    "stylers": [
+    'featureType': 'poi.park',
+    'elementType': 'labels.text.fill',
+    'stylers': [
       {
-        "color": "#447530"
+        'color': '#447530'
       }
     ]
   },
   {
-    "featureType": "road",
-    "elementType": "geometry",
-    "stylers": [
+    'featureType': 'road',
+    'elementType': 'geometry',
+    'stylers': [
       {
-        "color": "#f5f1e6"
+        'color': '#f5f1e6'
       }
     ]
   },
   {
-    "featureType": "road.arterial",
-    "elementType": "geometry",
-    "stylers": [
+    'featureType': 'road.arterial',
+    'elementType': 'geometry',
+    'stylers': [
       {
-        "color": "#fdfcf8"
+        'color': '#fdfcf8'
       }
     ]
   },
   {
-    "featureType": "road.arterial",
-    "elementType": "labels",
-    "stylers": [
+    'featureType': 'road.arterial',
+    'elementType': 'labels',
+    'stylers': [
       {
-        "visibility": "off"
+        'visibility': 'off'
       }
     ]
   },
   {
-    "featureType": "road.highway",
-    "elementType": "geometry",
-    "stylers": [
+    'featureType': 'road.highway',
+    'elementType': 'geometry',
+    'stylers': [
       {
-        "color": "#f8c967"
+        'color': '#f8c967'
       }
     ]
   },
   {
-    "featureType": "road.highway",
-    "elementType": "geometry.stroke",
-    "stylers": [
+    'featureType': 'road.highway',
+    'elementType': 'geometry.stroke',
+    'stylers': [
       {
-        "color": "#e9bc62"
+        'color': '#e9bc62'
       }
     ]
   },
   {
-    "featureType": "road.highway",
-    "elementType": "labels",
-    "stylers": [
+    'featureType': 'road.highway',
+    'elementType': 'labels',
+    'stylers': [
       {
-        "visibility": "off"
+        'visibility': 'off'
       }
     ]
   },
   {
-    "featureType": "road.highway.controlled_access",
-    "elementType": "geometry",
-    "stylers": [
+    'featureType': 'road.highway.controlled_access',
+    'elementType': 'geometry',
+    'stylers': [
       {
-        "color": "#e98d58"
+        'color': '#e98d58'
       }
     ]
   },
   {
-    "featureType": "road.highway.controlled_access",
-    "elementType": "geometry.stroke",
-    "stylers": [
+    'featureType': 'road.highway.controlled_access',
+    'elementType': 'geometry.stroke',
+    'stylers': [
       {
-        "color": "#db8555"
+        'color': '#db8555'
       }
     ]
   },
   {
-    "featureType": "road.local",
-    "stylers": [
+    'featureType': 'road.local',
+    'stylers': [
       {
-        "visibility": "off"
+        'visibility': 'off'
       }
     ]
   },
   {
-    "featureType": "road.local",
-    "elementType": "labels.text.fill",
-    "stylers": [
+    'featureType': 'road.local',
+    'elementType': 'labels.text.fill',
+    'stylers': [
       {
-        "color": "#806b63"
+        'color': '#806b63'
       }
     ]
   },
   {
-    "featureType": "transit.line",
-    "elementType": "geometry",
-    "stylers": [
+    'featureType': 'transit.line',
+    'elementType': 'geometry',
+    'stylers': [
       {
-        "color": "#dfd2ae"
+        'color': '#dfd2ae'
       }
     ]
   },
   {
-    "featureType": "transit.line",
-    "elementType": "labels.text.fill",
-    "stylers": [
+    'featureType': 'transit.line',
+    'elementType': 'labels.text.fill',
+    'stylers': [
       {
-        "color": "#8f7d77"
+        'color': '#8f7d77'
       }
     ]
   },
   {
-    "featureType": "transit.line",
-    "elementType": "labels.text.stroke",
-    "stylers": [
+    'featureType': 'transit.line',
+    'elementType': 'labels.text.stroke',
+    'stylers': [
       {
-        "color": "#ebe3cd"
+        'color': '#ebe3cd'
       }
     ]
   },
   {
-    "featureType": "transit.station",
-    "elementType": "geometry",
-    "stylers": [
+    'featureType': 'transit.station',
+    'elementType': 'geometry',
+    'stylers': [
       {
-        "color": "#dfd2ae"
+        'color': '#dfd2ae'
       }
     ]
   },
   {
-    "featureType": "water",
-    "elementType": "geometry.fill",
-    "stylers": [
+    'featureType': 'water',
+    'elementType': 'geometry.fill',
+    'stylers': [
       {
-        "color": "#b9d3c2"
+        'color': '#b9d3c2'
       }
     ]
   },
   {
-    "featureType": "water",
-    "elementType": "labels.text.fill",
-    "stylers": [
+    'featureType': 'water',
+    'elementType': 'labels.text.fill',
+    'stylers': [
       {
-        "color": "#92998d"
+        'color': '#92998d'
       }
     ]
   }
 ];
 
-
-
 var markers = [];
+var tags = [];
 function initMap() {
   map = new google.maps.Map(document.getElementById('map'), {
     center: {
@@ -261,32 +259,27 @@ function initMap() {
 
   function getBaiduData(location) {
     jQuery.ajax({
-        url: "http://api.map.baidu.com/place/v2/search",
-        type: "GET",
-        dataType: "jsonp",
+        url: 'http://api.map.baidu.com/place/v2/search',
+        type: 'GET',
+        dataType: 'jsonp',
         data: {
-            "q": "旅游景点",
-            "scope": "2",
-            "filter": "sort_name:好评|sort_rule:0",
-            "region": location,
-            "output": "json",
-            "ak": "oXmLrK2EjxWxZm1qab51f1fmRLm4I4kF",
-            "tag": "null",
-            "page_size": "20",
-            "page_num": "0"
+            'q': '旅游景点',
+            'scope': '2',
+            'filter': 'sort_name:好评|sort_rule:0',
+            'region': location,
+            'output': 'json',
+            'ak': 'oXmLrK2EjxWxZm1qab51f1fmRLm4I4kF',
+            'page_size': '20',
+            'page_num': '0'
         }
     })
     .done(function(data, textStatus, jqXHR) {
-        console.log("HTTP Request Succeeded: " + jqXHR.status);
-        console.log(data);
+        console.log('HTTP Request Succeeded: ' + jqXHR.status);
         locations = data.results;
         createMarkers(locations);
     })
     .fail(function(jqXHR, textStatus, errorThrown) {
-        console.log("HTTP Request Failed");
-    })
-    .always(function() {
-        /* ... */
+        console.log('HTTP Request Failed');
     });
   }
 
@@ -303,13 +296,28 @@ function initMap() {
   function createMarkers(locationsArray) {
     hideMarkers(markers);
     markers = [];
-    var placesList = document.getElementById('places');
-    placesList.innerHTML = '';
+    tags = [];
+    var tagArray = [];
+    var placesList = $('#places');
+    placesList.empty();
     var bounds = new google.maps.LatLngBounds();
     locationsArray.forEach(function(loc, index) {
       var title = loc.name;
       var position = loc.location;
+
+      if (loc.detail_info) {
+        tagArray = loc.detail_info.tag.split(';');
+        tagArray.forEach(function(singleTag) {
+          tags.push(singleTag);
+        });
+      }
+
       var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+      var rating = 'N/A';
+      if (loc.detail_info) {
+        rating = loc.detail_info.overall_rating;
+      }
+
 
       var marker = new google.maps.Marker({
         map: map,
@@ -319,22 +327,82 @@ function initMap() {
         label: labels[index]
       });
 
-      placesList.innerHTML += '<li class="list">' + title + '</li>';
+      var listEl =  $('<li class="list">' + title + ' <br> Rating: ' + rating + '</li> ');
+
+      listEl.click(function(event) {
+        console.log(event);
+        getPlacesDetails(marker, largeInfowindow, bounds, loc);
+      });
+      placesList.append(listEl);
 
       marker.addListener('click', function() {
-        getPlacesDetails(this, largeInfowindow, bounds);
+        getPlacesDetails(this, largeInfowindow, bounds, loc);
       });
-
-      // marker.addListener('mouseover', function() {
-      //   baiduChangePanoView(loc);
-      // });
-
-
       markers.push(marker);
 
       bounds.extend(markers[index].position);
     });
+
+    var uniqueTags = _.uniq(tags);
+    addFilterForTags(uniqueTags);
     map.fitBounds(bounds);
+  }
+
+  function addFilterForTags(uniqueTags) {
+
+    var filterDiv = $('#js-filter');
+    filterDiv.empty();
+    filterDiv.append('<label>Filter by Tag:</label>');
+
+    var formText = '<select class="form-control">';
+    uniqueTags.forEach(function(tag) {
+      googleTranslateBaidu(tag);
+      formText +=  '<option id="' + tag + '" value="' + tag + '">' + tag + '</option>';
+    });
+
+    formText += '</select>';
+
+    filterDiv.append(formText);
+    //
+    // <div class="form-group col-md-12">
+    //   <label for="sel1">Select list:</label>
+    //     <select class="form-control" id="js-city">
+    //       <option value="香港">Hong Kong | 香港</option>
+    //       <option value="北京">Beijing | 北京</option>
+    //       <option value="上海">Shanghai | 上海</option>
+    //       <option value="天津">Tianjin | 天津</option>
+    //   </select>
+  }
+
+  function googleTranslateBaidu(word) {
+    // (GET https://www.googleapis.com/language/translate/v2)
+    var translatedWord = 'No Word Found';
+  jQuery.ajax({
+      url: "https://www.googleapis.com/language/translate/v2",
+      type: "GET",
+      data: {
+          "key": "AIzaSyAzaEzWmHAh91ZM2kLFg0wE4oGsXujnDpc",
+          "q": word,
+          "source": "zh-CN",
+          "target": "en",
+      },
+  })
+  .done(function(data, textStatus, jqXHR) {
+      console.log("HTTP Request Succeeded: " + jqXHR.status);
+      translatedWord = data.data.translations[0].translatedText;
+      addTranslation(word, translatedWord);
+      console.log(translatedWord);
+  })
+  .fail(function(jqXHR, textStatus, errorThrown) {
+      console.log("HTTP Request Failed");
+  })
+  .always(function() {
+      /* ... */
+  });
+}
+  function addTranslation(word, translatedWord) {
+    var filterOption = $('#' + word);
+    filterOption.append(' | ' + translatedWord);
   }
 
   function populateInfoWindow(marker, infowindow) {
@@ -350,7 +418,7 @@ function initMap() {
           }
   }
 
-  function getPlacesDetails(marker, infowindow, bounds) {
+  function getPlacesDetails(marker, infowindow, bounds, loc) {
     var placesService = new google.maps.places.PlacesService(map);
         placesService.textSearch({
           query: marker.title,
@@ -363,6 +431,7 @@ function initMap() {
               }, function(place, status) {
                 if (status === google.maps.places.PlacesServiceStatus.OK) {
                   console.log(place);
+                  console.log(loc);
                   loadGooglePanorama(place);
                   // Set the marker property on this infowindow so it isn't created again.
                   infowindow.marker = marker;
@@ -376,6 +445,19 @@ function initMap() {
                   if (place.formatted_phone_number) {
                     innerHTML += '<br>' + place.formatted_phone_number;
                   }
+
+                  if (loc.detail_info) {
+                    // Baidu rating
+                    if (loc.detail_info.overall_rating) {
+                      innerHTML += '<br> Baidu Rating: ' + loc.detail_info.overall_rating;
+                    }
+                    // Baidu price
+                    if (loc.detail_info.price) {
+                      innerHTML += '<br> Price: ' + loc.detail_info.price + ' 元';
+                    }
+
+                  }
+
                   if (place.opening_hours) {
                     innerHTML += '<br><br><strong>Hours:</strong><br>' +
                         place.opening_hours.weekday_text[0] + '<br>' +
@@ -404,6 +486,7 @@ function initMap() {
   }
 
   //全景图展示
+  //Baidu Pano
 
   // var panorama = new BMap.Panorama('baidupano');
   // panorama.setOptions({
@@ -448,14 +531,8 @@ function initMap() {
                 var panorama = new google.maps.StreetViewPanorama(
                   document.getElementById('panorama'), panoramaOptions);
               } else {
-                // var pano = document.getElementById('panorama');
-                // var noPano = $('<h3>No Pano</h3>');
-                // pano.append(noPano);
-                pano.css("display","none");
-                $("#noPano").fadeIn('slow').animate({opacity: 1.0}, 2500).fadeOut('slow');
-                // pano.css('display', '');
-                console.log('no pano found');
-                console.log(status);
+                pano.css('display','none');
+                $('#noPano').fadeIn('slow').animate({opacity: 1.0}, 2500).fadeOut('slow');
               }
             }
             // Use streetview service to get the closest streetview image within

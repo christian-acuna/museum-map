@@ -37,3 +37,13 @@ gulp.task('serve', function() {
   // gulp.watch('app/fonts/**/*', ['fonts']);
   gulp.watch('bower.json', ['wiredep']);
 });
+
+gulp.task('serve:dist', function() {
+  browserSync({
+    notify: false,
+    port: 9000,
+    server: {
+      baseDir: ['dist']
+    }
+  });
+});

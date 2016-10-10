@@ -20,6 +20,7 @@
     "gulp-concat": "^2.6.0",
     "gulp-csslint": "^1.0.0",
     "gulp-cssnano": "^2.1.2",
+    "gulp-eslint": "^2.0.0",
     "gulp-gzip": "^1.4.0",
     "gulp-htmlmin": "^3.0.0",
     "gulp-if": "^2.0.1",
@@ -40,5 +41,18 @@
   },
   "dependencies": {
     "critical": "^0.8.0"
+  },
+  "eslintConfig": {
+  "env": {
+    "es6": false,
+    "node": true,
+    "browser": true
+  },
+  "rules": {
+    "quotes": [
+      2,
+      "single"
+    ]
   }
+}
 }

@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="/bower_components/font-awesome/css/font-awesome.min.css" />
     <link rel="stylesheet" href="/bower_components/skeleton/css/skeleton.css" />
+    <link rel="stylesheet" href="/bower_components/imagelightbox/src/imagelightbox.css" />
     <!-- endbower -->
     <!-- endbuild -->
 
@@ -29,16 +30,16 @@
 
 <div id="map"></div>
 <div id="right-panel">
-  <h4>Results</h4>
+  <h4 class="places-title">Results</h4>
   <ol id="places"></ol>
-  <button id="more">More results</button>
+  <!-- <button id="more">More results</button> -->
 </div>
 <div class="container-fluid" id="main">
   <div class="row">
   	<div class="col-md-6 col-xs-12" id="left">
 
       <h2 class="text-center">Lens of China</h2>
-      <div class="form-group col-md-12">
+      <div id="form" class="form-group col-md-12">
         <label for="sel1">Select list:</label>
           <select class="form-control" id="js-city">
             <option value="香港">Hong Kong | 香港</option>
@@ -47,11 +48,7 @@
             <option value="天津">Tianjin | 天津</option>
         </select>
       </div>
-      <!-- <div class="row">
-        <div class="col-md-12">
-
-        </div>
-      </div> -->
+      <div id="js-filter" class="form-group col-md-12"></div>
 
       <div class="col-lg-12 col-xs-12 center-block">
         <button type="button center-block" id="data" name="button">Harvard Art Museum</button>
@@ -61,6 +58,7 @@
       <div class="row">
         <div class="col-md-12">
           <div id="noPano" class="alert alert-warning"><strong>No Panorama!</strong> Sorry, but no panorama was found for this location.</div>
+          <div id="noData" class="alert alert-warning"><strong>No Objects!</strong> Sorry, but no objects were found for this location.</div>
         </div>
       </div>
 
@@ -103,17 +101,16 @@
     <!-- bower:js -->
     <script src="/bower_components/jquery/dist/jquery.js"></script>
     <script src="/bower_components/knockout/dist/knockout.js"></script>
-    <script src="/bower_components/jquery.poptrox/jquery.poptrox.js"></script>
+    <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="/bower_components/imagelightbox/src/imagelightbox.js"></script>
+    <script src="/bower_components/underscore/underscore.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
-   <!-- <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=oXmLrK2EjxWxZm1qab51f1fmRLm4I4kF"></script> -->
     <!-- build:js scripts/main.js -->
-
     <script src="scripts/map.js"></script>
     <script src="scripts/main.js"></script>
     <script src="scripts/models.js"></script>
-
     <!-- endbuild -->
     <script src="https://maps.googleapis.com/maps/api/js?libraries=places,drawing,geometry&key=AIzaSyDFNEbCIajW_75HYkGBCYudNr1-5hp3J5E&v=3&callback=initMap"
    async defer></script>
