@@ -338,16 +338,12 @@ function initMap() {
       marker.addListener('click', function() {
         getPlacesDetails(this, largeInfowindow, bounds, loc);
       });
-
-
-
       markers.push(marker);
 
       bounds.extend(markers[index].position);
     });
-    // console.log(tags);
+
     var uniqueTags = _.uniq(tags);
-    console.log(uniqueTags);
     addFilterForTags(uniqueTags);
     map.fitBounds(bounds);
   }
@@ -356,7 +352,7 @@ function initMap() {
 
     var filterDiv = $('#js-filter');
     filterDiv.empty();
-    filterDiv.append('<label>Filter by Type:</label>');
+    filterDiv.append('<label>Filter by Tag:</label>');
 
     var formText = '<select class="form-control">';
     uniqueTags.forEach(function(tag) {
