@@ -304,9 +304,10 @@ function initMap() {
     locationsArray.forEach(function(loc, index) {
       var title = loc.name;
       var position = loc.location;
+      var cursor = '';
 
       if (loc.detail_info) {
-        title = loc.detail_info.tag;
+        cursor = loc.detail_info.tag;
         tagArray = loc.detail_info.tag.split(';');
         tagArray.forEach(function(singleTag) {
           tags.push(singleTag);
@@ -324,6 +325,7 @@ function initMap() {
         map: map,
         position: position,
         title: title,
+        cursor: cursor,
         animation: google.maps.Animation.DROP,
         label: labels[index]
       });
@@ -372,7 +374,7 @@ function initMap() {
     console.log(tag);
 
     markers.forEach(function(marker) {
-      markerTag = marker.title;
+      markerTag = marker.cursor;
       if (markerTag.indexOf(tag) >= 0) {
         marker.setMap(map);
       } else {
