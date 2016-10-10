@@ -378,23 +378,23 @@ function initMap() {
     // (GET https://www.googleapis.com/language/translate/v2)
     var translatedWord = 'No Word Found';
   jQuery.ajax({
-      url: "https://www.googleapis.com/language/translate/v2",
-      type: "GET",
+      url: 'https://www.googleapis.com/language/translate/v2',
+      type: 'GET',
       data: {
-          "key": "AIzaSyAzaEzWmHAh91ZM2kLFg0wE4oGsXujnDpc",
-          "q": word,
-          "source": "zh-CN",
-          "target": "en",
+          'key': 'AIzaSyAzaEzWmHAh91ZM2kLFg0wE4oGsXujnDpc',
+          'q': word,
+          'source': 'zh-CN',
+          'target': 'en',
       },
   })
   .done(function(data, textStatus, jqXHR) {
-      console.log("HTTP Request Succeeded: " + jqXHR.status);
+      console.log('HTTP Request Succeeded: ' + jqXHR.status);
       translatedWord = data.data.translations[0].translatedText;
       addTranslation(word, translatedWord);
       console.log(translatedWord);
   })
   .fail(function(jqXHR, textStatus, errorThrown) {
-      console.log("HTTP Request Failed");
+      console.log('HTTP Request Failed');
   })
   .always(function() {
       /* ... */
