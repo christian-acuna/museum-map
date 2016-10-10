@@ -20,12 +20,14 @@
     "knockout": "^3.4.0",
     "bootstrap": "^3.3.7",
     "font-awesome": "^4.6.3",
-    "skeleton": "^2.0.4"
+    "skeleton": "^2.0.4",
+    "imagelightbox": "imagelightbox2#^0.5.3"
   },
   "overrides": {
     "bootstrap": {
       "main": [
-        "dist/css/bootstrap.min.css"
+        "dist/css/bootstrap.min.css",
+        "dist/js/bootstrap.min.js"
       ]
     },
     "font-awesome": {

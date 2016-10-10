@@ -46,6 +46,15 @@ html, body{
 
 }
 
+#imagelightbox
+{
+    position: fixed;
+    z-index: 9999;
+
+    -ms-touch-action: none;
+    touch-action: none;
+}
+
 #noPano {
   display: none;
 }

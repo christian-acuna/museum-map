@@ -102,6 +102,7 @@ function getGettyData() {
       });
       console.log(mappedObjects);
       appViewModel.artObjects(mappedObjects);
+      // $( 'a' ).imageLightbox();
   })
   .fail(function(jqXHR, textStatus, errorThrown) {
       console.log('HTTP Request Failed');
