@@ -28,7 +28,7 @@ function getHarvardData() {
       break;
   }
   jQuery.ajax({
-    url: 'http://api.harvardartmuseums.org/object',
+    url: 'https://api.harvardartmuseums.org/object',
     type: 'GET',
     data: {
       'place': location,

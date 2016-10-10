@@ -259,7 +259,7 @@ function initMap() {
 
   function getBaiduData(location) {
     jQuery.ajax({
-        url: 'http://api.map.baidu.com/place/v2/search',
+        url: 'https://api.map.baidu.com/place/v2/search',
         type: 'GET',
         dataType: 'jsonp',
         data: {
