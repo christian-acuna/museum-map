@@ -330,7 +330,7 @@ function initMap() {
         label: labels[index]
       });
 
-      var listEl =  $('<li class="list">' + title + ' <br> Rating: ' + rating + '</li> ');
+      var listEl =  $('<li class="list">' + title + ' <br> Rating: ' + rating + ' | ' + cursor + '</li> ');
 
       listEl.click(function(event) {
         console.log(event);
@@ -372,15 +372,23 @@ function initMap() {
 
   function filterMarkers(tag) {
     console.log(tag);
+    var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    var counter = 0;
 
-    markers.forEach(function(marker) {
+    markers.forEach(function(marker, index) {
       markerTag = marker.cursor;
       if (markerTag.indexOf(tag) >= 0) {
         marker.setMap(map);
+        marker.setLabel(labels[counter]);
+        counter++;
       } else {
         marker.setMap(null);
       }
     });
+    $('.list').hide();
+    var placesList = $('.list:contains(' + tag + ')');
+    placesList.show();
+    console.log(placesList);
   }
 
   function googleTranslateBaidu(word) {
