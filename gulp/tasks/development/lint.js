@@ -2,6 +2,7 @@ var gulp        = require('gulp');
 var config      = require('../../config').scripts;
 var browserSync = require('browser-sync');
 var $ = require('gulp-load-plugins')();
+var reload = browserSync.reload;
 
 function lint(files, options) {
   return gulp.src(files)

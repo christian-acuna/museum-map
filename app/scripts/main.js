@@ -13,7 +13,7 @@ var appViewModel = new AppViewModel();
 ko.applyBindings(appViewModel);
 
 function getHarvardData() {
-  var location = "";
+  var location = '';
   var cityValue = document.getElementById('js-city').value;
   switch (cityValue) {
     case '香港':
@@ -30,16 +30,16 @@ function getHarvardData() {
       break;
   }
   jQuery.ajax({
-      url: "http://api.harvardartmuseums.org/object",
-      type: "GET",
+      url: 'http://api.harvardartmuseums.org/object',
+      type: 'GET',
       data: {
-          "place": location,
-          "apikey": "0c781bd0-8a9f-11e6-bcde-977dd71a47a9"
+          'place': location,
+          'apikey': '0c781bd0-8a9f-11e6-bcde-977dd71a47a9'
           // "keyword": "photographs"
       },
   })
   .done(function(data, textStatus, jqXHR) {
-      console.log("HTTP Request Succeeded: " + jqXHR.status);
+      console.log('HTTP Request Succeeded: ' + jqXHR.status);
       console.log(data);
       var mappedObjects = $.map(data.records, function(item) {
         console.log(item);
@@ -63,7 +63,7 @@ function getHarvardData() {
       // foo.poptrox();
   })
   .fail(function(jqXHR, textStatus, errorThrown) {
-      console.log("HTTP Request Failed");
+      console.log('HTTP Request Failed');
   })
   .always(function() {
       /* ... */
@@ -72,21 +72,21 @@ function getHarvardData() {
 
 
 function getGettyData() {
-  var location = "";
+  var location = '';
   var cityValue = document.getElementById('js-city').value;
   $.ajax({
       url: '../json/' + cityValue + '.json',
-      type: "GET",
-      dataType: "json"
+      type: 'GET',
+      dataType: 'json'
   })
   .done(function(data, textStatus, jqXHR) {
-      console.log("HTTP Request Succeeded: " + jqXHR.status);
+      console.log('HTTP Request Succeeded: ' + jqXHR.status);
       console.log(data.Response.doc.record);
       var recordArray = data.Response.doc.record;
       var mappedObjects = $.map(recordArray, function(item) {
         console.log(item);
         // console.log(item.department);
-        var image =  item.imageThumbURI.replace("thumbnail", "enlarge");
+        var image =  item.imageThumbURI.replace('thumbnail', 'enlarge');
         console.log(image);
         return new ArtObject(
           item.PrimaryTitle,
@@ -104,7 +104,7 @@ function getGettyData() {
       appViewModel.artObjects(mappedObjects);
   })
   .fail(function(jqXHR, textStatus, errorThrown) {
-      console.log("HTTP Request Failed");
+      console.log('HTTP Request Failed');
   })
   .always(function() {
       /* ... */
