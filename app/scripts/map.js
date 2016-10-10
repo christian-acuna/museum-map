@@ -306,6 +306,7 @@ function initMap() {
       var position = loc.location;
 
       if (loc.detail_info) {
+        title = loc.detail_info.tag;
         tagArray = loc.detail_info.tag.split(';');
         tagArray.forEach(function(singleTag) {
           tags.push(singleTag);
@@ -354,24 +355,30 @@ function initMap() {
     filterDiv.empty();
     filterDiv.append('<label>Filter by Tag:</label>');
 
-    var formText = '<select class="form-control">';
-    uniqueTags.forEach(function(tag) {
-      googleTranslateBaidu(tag);
-      formText +=  '<option id="' + tag + '" value="' + tag + '">' + tag + '</option>';
+    var formText = $('<select id="selectTag"class="form-control"></select>');
+    filterDiv.append(formText);
+    formText.change(function(event) {
+      filterMarkers(event.target.value);
     });
 
-    formText += '</select>';
+    uniqueTags.forEach(function(tag) {
+      googleTranslateBaidu(tag);
+      var optionEl = $('<option id="' + tag + '" value="' + tag + '">' + tag + '</option>');
+      formText.append(optionEl);
+    });
+  }
 
-    filterDiv.append(formText);
-    //
-    // <div class="form-group col-md-12">
-    //   <label for="sel1">Select list:</label>
-    //     <select class="form-control" id="js-city">
-    //       <option value="香港">Hong Kong | 香港</option>
-    //       <option value="北京">Beijing | 北京</option>
-    //       <option value="上海">Shanghai | 上海</option>
-    //       <option value="天津">Tianjin | 天津</option>
-    //   </select>
+  function filterMarkers(tag) {
+    console.log(tag);
+
+    markers.forEach(function(marker) {
+      markerTag = marker.title;
+      if (markerTag.indexOf(tag) >= 0) {
+        marker.setMap(map);
+      } else {
+        marker.setMap(null);
+      }
+    });
   }
 
   function googleTranslateBaidu(word) {
