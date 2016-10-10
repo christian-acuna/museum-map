@@ -242,8 +242,6 @@ var styles = [
   }
 ];
 
-
-
 var markers = [];
 function initMap() {
   map = new google.maps.Map(document.getElementById('map'), {
@@ -271,7 +269,6 @@ function initMap() {
             'region': location,
             'output': 'json',
             'ak': 'oXmLrK2EjxWxZm1qab51f1fmRLm4I4kF',
-            // 'tag': 'null',
             'page_size': '20',
             'page_num': '0'
         }
@@ -303,13 +300,15 @@ function initMap() {
   function createMarkers(locationsArray) {
     hideMarkers(markers);
     markers = [];
-    var placesList = document.getElementById('places');
+    var placesList = $('#places');
     placesList.innerHTML = '';
     var bounds = new google.maps.LatLngBounds();
     locationsArray.forEach(function(loc, index) {
       var title = loc.name;
       var position = loc.location;
       var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+      var rating = loc.detail_info.overall_rating;
+
 
       var marker = new google.maps.Marker({
         map: map,
@@ -319,17 +318,19 @@ function initMap() {
         label: labels[index]
       });
 
-      googleTranslateBaidu(title);
+      var listEl =  $('<li class="list">' + title + ' <br> Rating: ' + rating.toString() + '</li> ');
 
-      placesList.innerHTML += '<li class="list">' + title + '</li>';
+      listEl.click(function(event) {
+        console.log(event);
+        getPlacesDetails(marker, largeInfowindow, bounds, loc);
+      });
+      placesList.append(listEl);
+      // placesList.innerHTML += '<li class="list">' + title + ' <br> Rating: ' + rating.toString() + '</li> ';
 
       marker.addListener('click', function() {
-        getPlacesDetails(this, largeInfowindow, bounds);
+        getPlacesDetails(this, largeInfowindow, bounds, loc);
       });
 
-      // marker.addListener('mouseover', function() {
-      //   baiduChangePanoView(loc);
-      // });
 
 
       markers.push(marker);
@@ -339,30 +340,32 @@ function initMap() {
     map.fitBounds(bounds);
   }
 
-  function googleTranslateBaidu(word) {
-    // (GET https://www.googleapis.com/language/translate/v2)
-
-  jQuery.ajax({
-      url: "https://www.googleapis.com/language/translate/v2",
-      type: "GET",
-      data: {
-          "key": "AIzaSyAzaEzWmHAh91ZM2kLFg0wE4oGsXujnDpc",
-          "q": word,
-          "source": "zh-CN",
-          "target": "en",
-      },
-  })
-  .done(function(data, textStatus, jqXHR) {
-      console.log("HTTP Request Succeeded: " + jqXHR.status);
-      console.log(data.data.translations[0].translatedText);
-  })
-  .fail(function(jqXHR, textStatus, errorThrown) {
-      console.log("HTTP Request Failed");
-  })
-  .always(function() {
-      /* ... */
-  });
-  }
+  // function googleTranslateBaidu(word) {
+  //   // (GET https://www.googleapis.com/language/translate/v2)
+  //   var translatedWord = 'No Word Found';
+  // jQuery.ajax({
+  //     url: "https://www.googleapis.com/language/translate/v2",
+  //     type: "GET",
+  //     data: {
+  //         "key": "AIzaSyAzaEzWmHAh91ZM2kLFg0wE4oGsXujnDpc",
+  //         "q": word,
+  //         "source": "zh-CN",
+  //         "target": "en",
+  //     },
+  // })
+  // .done(function(data, textStatus, jqXHR) {
+  //     console.log("HTTP Request Succeeded: " + jqXHR.status);
+  //     translatedWord = data.data.translations[0].translatedText;
+  // })
+  // .fail(function(jqXHR, textStatus, errorThrown) {
+  //     console.log("HTTP Request Failed");
+  // })
+  // .always(function() {
+  //     /* ... */
+  // });
+  //
+  // return translatedWord;
+  // }
 
   function populateInfoWindow(marker, infowindow) {
     if (infowindow.marker != marker) {
@@ -377,7 +380,7 @@ function initMap() {
           }
   }
 
-  function getPlacesDetails(marker, infowindow, bounds) {
+  function getPlacesDetails(marker, infowindow, bounds, loc) {
     var placesService = new google.maps.places.PlacesService(map);
         placesService.textSearch({
           query: marker.title,

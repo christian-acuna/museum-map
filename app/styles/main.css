@@ -1,4 +1,4 @@
-
+/**/
 /*
 A custom Bootstrap 3.1 theme from http://bootply.com\
 
@@ -84,28 +84,17 @@ html, body{
 }
 
 #right-panel {
-  line-height: 10px;
+  line-height: 20px;
   padding-left: 10px;
 }
 
-#right-panel select, #right-panel input {
-  font-size: 15px;
-}
-
-#right-panel select {
-  width: 100%;
-}
-
-#right-panel i {
-  font-size: 12px;
-}
 #right-panel {
   position: absolute;
-  right: 100px;
+  right: 300px;
   top: 90%;
   margin-top: -195px;
   height: 200px;
-  width: 500px;
+  width: 300px;
   padding: 5px;
   z-index: 5;
   border: 1px solid #999;
@@ -116,7 +105,7 @@ html, body{
   padding: 0;
   margin: 0;
   height: 130px;
-  width: 490px;
+  width: 290px;
   overflow-y: scroll;
 }
 .list {
@@ -126,6 +115,11 @@ html, body{
   white-space: nowrap;
   overflow: hidden;
 }
+
+.list:hover {
+  cursor: pointer;
+}
+
 .list:nth-child(odd) {
   background-color: #fcfcfc;
 }
