@@ -297,14 +297,21 @@ function initMap() {
     hideMarkers(markers);
     markers = [];
     tags = [];
+    var tagArray = [];
     var placesList = $('#places');
     placesList.empty();
     var bounds = new google.maps.LatLngBounds();
     locationsArray.forEach(function(loc, index) {
       var title = loc.name;
       var position = loc.location;
-      var tag = loc.detail_info.tag.split(';');
-      console.log(tag);
+      
+      if (loc.detail_info) {
+        tagArray = loc.detail_info.tag.split(';');
+        tagArray.forEach(function(singleTag) {
+          tags.push(singleTag);
+        });
+      }
+
       var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
       var rating = 'N/A';
       if (loc.detail_info) {
@@ -338,7 +345,36 @@ function initMap() {
 
       bounds.extend(markers[index].position);
     });
+    // console.log(tags);
+    var uniqueTags = _.uniq(tags);
+    console.log(uniqueTags);
+    addFilterForTags(uniqueTags);
     map.fitBounds(bounds);
+  }
+
+  function addFilterForTags(uniqueTags) {
+
+    var filterDiv = $('#js-filter');
+    filterDiv.empty();
+    filterDiv.append('<label>Filter by Type:</label>');
+
+    var formText = '<select class="form-control">';
+    uniqueTags.forEach(function(tag) {
+      formText +=  '<option value="' + tag + '">' + tag + '</option>';
+    });
+
+    formText += '</select>';
+
+    filterDiv.append(formText);
+    //
+    // <div class="form-group col-md-12">
+    //   <label for="sel1">Select list:</label>
+    //     <select class="form-control" id="js-city">
+    //       <option value="香港">Hong Kong | 香港</option>
+    //       <option value="北京">Beijing | 北京</option>
+    //       <option value="上海">Shanghai | 上海</option>
+    //       <option value="天津">Tianjin | 天津</option>
+    //   </select>
   }
 
   // function googleTranslateBaidu(word) {

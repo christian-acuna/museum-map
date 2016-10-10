@@ -39,7 +39,7 @@
   	<div class="col-md-6 col-xs-12" id="left">
 
       <h2 class="text-center">Lens of China</h2>
-      <div class="form-group col-md-12">
+      <div id="form" class="form-group col-md-12">
         <label for="sel1">Select list:</label>
           <select class="form-control" id="js-city">
             <option value="香港">Hong Kong | 香港</option>
@@ -48,11 +48,7 @@
             <option value="天津">Tianjin | 天津</option>
         </select>
       </div>
-      <!-- <div class="row">
-        <div class="col-md-12">
-
-        </div>
-      </div> -->
+      <div id="js-filter" class="form-group col-md-12"></div>
 
       <div class="col-lg-12 col-xs-12 center-block">
         <button type="button center-block" id="data" name="button">Harvard Art Museum</button>
@@ -107,6 +103,7 @@
     <script src="/bower_components/knockout/dist/knockout.js"></script>
     <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="/bower_components/imagelightbox/src/imagelightbox.js"></script>
+    <script src="/bower_components/underscore/underscore.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
