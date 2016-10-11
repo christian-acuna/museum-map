@@ -247,6 +247,7 @@ var markers = [];
 // Create a new blank array to store all tags in Chinese that are generated
 // form the baidu request
 var tags = [];
+var locations = [];
 function initMap() {
   // Constructor creates a new map centered on Hong Kong with custom styles
   map = new google.maps.Map(document.getElementById('map'), {
@@ -259,7 +260,6 @@ function initMap() {
   });
   var largeInfowindow = new google.maps.InfoWindow();
 
-  var locations = [];
   // map initally starts out set to Hong Kong
   getBaiduData('香港');
 
@@ -312,18 +312,33 @@ function initMap() {
 
   function createMarkers(locationsArray) {
     hideMarkers(markers);
+    // reset markers and tags arrays
     markers = [];
     tags = [];
+
+    // create tagArrays to store the tags for each location
     var tagArray = [];
+    // grab a reference to places ordered list
     var placesList = $('#places');
+    // clear out contents of #places
     placesList.empty();
+
     var bounds = new google.maps.LatLngBounds();
+
     locationsArray.forEach(function(loc, index) {
       var title = loc.name;
       var position = loc.location;
       var cursor = '';
-
+      // check to see if the loc retuns detail_info property and assign
+      // cursor to the string of tags
+      // cursor is used as a property on marker to pass the tags associated with each location
       if (loc.detail_info) {
+        // loc.detail_info.tag returns a string of tags seperated by a semicolon
+        //For example, 旅游景点;游乐园
+        //this string is split on the ; and stored in tagArray
+        //all of these tags are then pushed onto the tags array
+        // they are later filtered into an array that only contains unique values by
+        // underscore method uniq
         cursor = loc.detail_info.tag;
         tagArray = loc.detail_info.tag.split(';');
         tagArray.forEach(function(singleTag) {
@@ -332,12 +347,17 @@ function initMap() {
       }
 
       var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+      // set default rating to N/A as some locations do not return a detail_info property
       var rating = 'N/A';
+      // if location has detail_info, then it has an overall_rating property and rating is
+      // assigned to that value
       if (loc.detail_info) {
         rating = loc.detail_info.overall_rating;
       }
 
-
+      // create a new marker for each location.
+      // Note that cursor is used to store the tag string
+      // Could not find another property on the marker to store that string
       var marker = new google.maps.Marker({
         map: map,
         position: position,
