@@ -1,4 +1,5 @@
 var map;
+// Custom map styles
 var styles = [
   {
     'elementType': 'geometry',
@@ -241,9 +242,13 @@ var styles = [
   }
 ];
 
+// Create a new blank array to store all the markers currently on display
 var markers = [];
+// Create a new blank array to store all tags in Chinese that are generated
+// form the baidu request
 var tags = [];
 function initMap() {
+  // Constructor creates a new map centered on Hong Kong with custom styles
   map = new google.maps.Map(document.getElementById('map'), {
     center: {
       lat: 22.396428,
@@ -255,27 +260,36 @@ function initMap() {
   var largeInfowindow = new google.maps.InfoWindow();
 
   var locations = [];
+  // map initally starts out set to Hong Kong
   getBaiduData('香港');
 
+  // dynamically make a request to Baidu based on location passed as a paramater
+  // use jsonp to circumvent CROS errors
   function getBaiduData(location) {
     jQuery.ajax({
         url: 'https://api.map.baidu.com/place/v2/search',
         type: 'GET',
         dataType: 'jsonp',
         data: {
+            // query for only attractions
             'q': '旅游景点',
             'scope': '2',
+            // sort by raiting
             'filter': 'sort_name:好评|sort_rule:0',
             'region': location,
             'output': 'json',
+            // ak = acess key
             'ak': 'oXmLrK2EjxWxZm1qab51f1fmRLm4I4kF',
+            // max page_size is 20
             'page_size': '20',
             'page_num': '0'
         }
     })
     .done(function(data, textStatus, jqXHR) {
         console.log('HTTP Request Succeeded: ' + jqXHR.status);
+        //store results in locations array
         locations = data.results;
+        //create markers for locations returned by Baidu
         createMarkers(locations);
     })
     .fail(function(jqXHR, textStatus, errorThrown) {
@@ -283,12 +297,15 @@ function initMap() {
     });
   }
 
+  // This function will loop through the markers and set their map to null
   function hideMarkers(markers) {
     markers.forEach(function(marker) {
       marker.setMap(null);
     });
   }
 
+  // add jquery event listener to listen for change on the location dropdown and
+  // make a request to Baidu for locations at that city
   $('#js-city').change(function(event) {
     getBaiduData(event.target.value);
   });
