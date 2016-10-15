@@ -367,22 +367,24 @@ function initMap() {
         label: labels[index]
       });
 
+      //create a new li dom node based on the title, rating, and tags of the Baidu loccation
       var listEl =  $('<li class="list">' + title + ' <br> Rating: ' + rating + ' | ' + cursor + '</li> ');
-
+      // add a click event to each li that getPlacesDetails and opens an infowindow when the li is clicked on
       listEl.click(function(event) {
-        console.log(event);
         getPlacesDetails(marker, largeInfowindow, bounds, loc);
       });
       placesList.append(listEl);
 
+      // add a click event to each markre that getPlacesDetails and opens an infowindow when the marker is clicked on
       marker.addListener('click', function() {
         getPlacesDetails(this, largeInfowindow, bounds, loc);
       });
       markers.push(marker);
-
+      // extend the boundaries of the map for each marker
       bounds.extend(markers[index].position);
     });
 
+    // create a new array with only tags that are unique and pass it to addFilterForTags
     var uniqueTags = _.uniq(tags);
     addFilterForTags(uniqueTags);
     map.fitBounds(bounds);
@@ -408,7 +410,6 @@ function initMap() {
   }
 
   function filterMarkers(tag) {
-    console.log(tag);
     var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     var counter = 0;
 
@@ -449,9 +450,6 @@ function initMap() {
   })
   .fail(function(jqXHR, textStatus, errorThrown) {
       console.log('HTTP Request Failed');
-  })
-  .always(function() {
-      /* ... */
   });
 }
   function addTranslation(word, translatedWord) {
@@ -509,7 +507,6 @@ function initMap() {
                     if (loc.detail_info.price) {
                       innerHTML += '<br> Price: ' + loc.detail_info.price + ' 元';
                     }
-
                   }
 
                   if (place.opening_hours) {
