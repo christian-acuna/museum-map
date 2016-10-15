@@ -482,8 +482,6 @@ function initMap() {
                 placeId: results[0].place_id
               }, function(place, status) {
                 if (status === google.maps.places.PlacesServiceStatus.OK) {
-                  console.log(place);
-                  console.log(loc);
                   loadGooglePanorama(place);
                   // Set the marker property on this infowindow so it isn't created again.
                   infowindow.marker = marker;
@@ -536,36 +534,22 @@ function initMap() {
         });
   }
 
-  //全景图展示
-  //Baidu Pano
-
-  // var panorama = new BMap.Panorama('baidupano');
-  // panorama.setOptions({
-  //     indoorSceneSwitchControl: true //配置全景室内景切换控件显示
-  //   });
-  //
-  // function loadbaiduPanorama(){
-  //   panorama.setPosition(new BMap.Point(120.320032, 31.589666));	//3
-  //   // panorama.setId('0100010000130501122416015Z1');
-  //   panorama.setPov({heading: -40, pitch: 6});	//4
-  // }
-
-  // function baiduChangePanoView(loc) {
-  //   // console.log();
-  //   // console.log(point);
-  //   // panorama.setPosition(new BMap.Point(loc.location.lng, loc.location.lat));
-  //   panorama.setId(loc.uid);
-  //   panorama.setPov({heading: -40, pitch: 6});
-  // }
-  //
-  // loadbaiduPanorama();
-
-
+  /**
+   * loads the Google Street View for a given place
+   * @param  {place} place Place object returned by Google
+   */
   function loadGooglePanorama(place){
     var streetViewService = new google.maps.StreetViewService();
     var radius = 50;
 
+    /**
+     * When the status is OK, compute the position of the streetview image, then calculate
+     * the heading and get a panorama from that and set the options
+     * @param  {object} data   data returned from google
+     * @param  {string} status status of response
+     */
     function getStreetView(data, status) {
+      console.log(typeof status);
               var pano = $('#panorama');
               if (status == google.maps.StreetViewStatus.OK) {
                 pano.show();
@@ -590,13 +574,4 @@ function initMap() {
             // 50 meters of the markers position
             streetViewService.getPanoramaByLocation(place.geometry.location, radius, getStreetView);
   }
-
-  // function baiduChangePanoView(loc) {
-  //   // console.log();
-  //   // console.log(point);
-  //   // panorama.setPosition(new BMap.Point(loc.location.lng, loc.location.lat));
-  //   panorama.setId(loc.uid);
-  //   panorama.setPov({heading: -40, pitch: 6});
-  // }
-
 }
