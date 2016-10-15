@@ -367,17 +367,20 @@ function initMap() {
         label: labels[index]
       });
 
+
       //create a new li dom node based on the title, rating, and tags of the Baidu loccation
       var listEl =  $('<li class="list">' + title + ' <br> Rating: ' + rating + ' | ' + cursor + '</li> ');
       // add a click event to each li that getPlacesDetails and opens an infowindow when the li is clicked on
       listEl.click(function(event) {
         getPlacesDetails(marker, largeInfowindow, bounds, loc);
+        toggleBounce(marker);
       });
       placesList.append(listEl);
 
       // add a click event to each markre that getPlacesDetails and opens an infowindow when the marker is clicked on
       marker.addListener('click', function() {
         getPlacesDetails(this, largeInfowindow, bounds, loc);
+        toggleBounce(this);
       });
       markers.push(marker);
       // extend the boundaries of the map for each marker
@@ -574,4 +577,11 @@ function initMap() {
             // 50 meters of the markers position
             streetViewService.getPanoramaByLocation(place.geometry.location, radius, getStreetView);
   }
+  function toggleBounce(marker) {
+        if (marker.getAnimation() !== null) {
+          marker.setAnimation(null);
+        } else {
+          marker.setAnimation(google.maps.Animation.BOUNCE);
+        }
+      }
 }
