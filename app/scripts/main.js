@@ -67,8 +67,8 @@ function getHarvardData() {
   });
 }
 
-// currently the Harvard Art Museum's HTTPS certificate is not vaild and
-// fails when the site is hosted on an https server cross-server origin error.
+// currently the Harvard Art Museum's HTTPS certificate is not valid and
+// fails when the site is hosted on an https server.
 function getStoredHarvardData() {
   var location = '';
   var cityValue = document.getElementById('js-city').value;
