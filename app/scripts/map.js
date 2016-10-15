@@ -579,9 +579,13 @@ function initMap() {
   }
   function toggleBounce(marker) {
         if (marker.getAnimation() !== null) {
+          marker.setLabel(marker.saveLabel);
           marker.setAnimation(null);
         } else {
           marker.setAnimation(google.maps.Animation.BOUNCE);
+          marker.saveLabel = marker.getLabel();
+          marker.setLabel(null);
+          console.log(marker.saveLabel);
         }
       }
 }
