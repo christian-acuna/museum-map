@@ -1,4 +1,5 @@
 var map;
+// Custom map styles
 var styles = [
   {
     'elementType': 'geometry',
@@ -241,9 +242,14 @@ var styles = [
   }
 ];
 
+// Create a new blank array to store all the markers currently on display
 var markers = [];
+// Create a new blank array to store all tags in Chinese that are generated
+// form the baidu request
 var tags = [];
+var locations = [];
 function initMap() {
+  // Constructor creates a new map centered on Hong Kong with custom styles
   map = new google.maps.Map(document.getElementById('map'), {
     center: {
       lat: 22.396428,
@@ -254,28 +260,36 @@ function initMap() {
   });
   var largeInfowindow = new google.maps.InfoWindow();
 
-  var locations = [];
+  // map initally starts out set to Hong Kong
   getBaiduData('香港');
 
+  // dynamically make a request to Baidu based on location passed as a paramater
+  // use jsonp to circumvent CROS errors
   function getBaiduData(location) {
     jQuery.ajax({
         url: 'https://api.map.baidu.com/place/v2/search',
         type: 'GET',
         dataType: 'jsonp',
         data: {
+            // query for only attractions
             'q': '旅游景点',
             'scope': '2',
+            // sort by raiting
             'filter': 'sort_name:好评|sort_rule:0',
             'region': location,
             'output': 'json',
+            // ak = acess key
             'ak': 'oXmLrK2EjxWxZm1qab51f1fmRLm4I4kF',
+            // max page_size is 20
             'page_size': '20',
             'page_num': '0'
         }
     })
     .done(function(data, textStatus, jqXHR) {
         console.log('HTTP Request Succeeded: ' + jqXHR.status);
+        //store results in locations array
         locations = data.results;
+        //create markers for locations returned by Baidu
         createMarkers(locations);
     })
     .fail(function(jqXHR, textStatus, errorThrown) {
@@ -283,30 +297,48 @@ function initMap() {
     });
   }
 
+  // This function will loop through the markers and set their map to null
   function hideMarkers(markers) {
     markers.forEach(function(marker) {
       marker.setMap(null);
     });
   }
 
+  // add jquery event listener to listen for change on the location dropdown and
+  // make a request to Baidu for locations at that city
   $('#js-city').change(function(event) {
     getBaiduData(event.target.value);
   });
 
   function createMarkers(locationsArray) {
     hideMarkers(markers);
+    // reset markers and tags arrays
     markers = [];
     tags = [];
+
+    // create tagArrays to store the tags for each location
     var tagArray = [];
+    // grab a reference to places ordered list
     var placesList = $('#places');
+    // clear out contents of #places
     placesList.empty();
+
     var bounds = new google.maps.LatLngBounds();
+
     locationsArray.forEach(function(loc, index) {
       var title = loc.name;
       var position = loc.location;
       var cursor = '';
-
+      // check to see if the loc retuns detail_info property and assign
+      // cursor to the string of tags
+      // cursor is used as a property on marker to pass the tags associated with each location
       if (loc.detail_info) {
+        // loc.detail_info.tag returns a string of tags seperated by a semicolon
+        //For example, 旅游景点;游乐园
+        //this string is split on the ; and stored in tagArray
+        //all of these tags are then pushed onto the tags array
+        // they are later filtered into an array that only contains unique values by
+        // underscore method uniq
         cursor = loc.detail_info.tag;
         tagArray = loc.detail_info.tag.split(';');
         tagArray.forEach(function(singleTag) {
@@ -315,12 +347,17 @@ function initMap() {
       }
 
       var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+      // set default rating to N/A as some locations do not return a detail_info property
       var rating = 'N/A';
+      // if location has detail_info, then it has an overall_rating property and rating is
+      // assigned to that value
       if (loc.detail_info) {
         rating = loc.detail_info.overall_rating;
       }
 
-
+      // create a new marker for each location.
+      // Note that cursor is used to store the tag string
+      // Could not find another property on the marker to store that string
       var marker = new google.maps.Marker({
         map: map,
         position: position,
@@ -330,22 +367,27 @@ function initMap() {
         label: labels[index]
       });
 
-      var listEl =  $('<li class="list">' + title + ' <br> Rating: ' + rating + ' | ' + cursor + '</li> ');
 
+      //create a new li dom node based on the title, rating, and tags of the Baidu loccation
+      var listEl =  $('<li class="list">' + title + ' <br> Rating: ' + rating + ' | ' + cursor + '</li> ');
+      // add a click event to each li that getPlacesDetails and opens an infowindow when the li is clicked on
       listEl.click(function(event) {
-        console.log(event);
         getPlacesDetails(marker, largeInfowindow, bounds, loc);
+        toggleBounce(marker);
       });
       placesList.append(listEl);
 
+      // add a click event to each markre that getPlacesDetails and opens an infowindow when the marker is clicked on
       marker.addListener('click', function() {
         getPlacesDetails(this, largeInfowindow, bounds, loc);
+        toggleBounce(this);
       });
       markers.push(marker);
-
+      // extend the boundaries of the map for each marker
       bounds.extend(markers[index].position);
     });
 
+    // create a new array with only tags that are unique and pass it to addFilterForTags
     var uniqueTags = _.uniq(tags);
     addFilterForTags(uniqueTags);
     map.fitBounds(bounds);
@@ -371,7 +413,6 @@ function initMap() {
   }
 
   function filterMarkers(tag) {
-    console.log(tag);
     var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     var counter = 0;
 
@@ -412,9 +453,6 @@ function initMap() {
   })
   .fail(function(jqXHR, textStatus, errorThrown) {
       console.log('HTTP Request Failed');
-  })
-  .always(function() {
-      /* ... */
   });
 }
   function addTranslation(word, translatedWord) {
@@ -447,8 +485,6 @@ function initMap() {
                 placeId: results[0].place_id
               }, function(place, status) {
                 if (status === google.maps.places.PlacesServiceStatus.OK) {
-                  console.log(place);
-                  console.log(loc);
                   loadGooglePanorama(place);
                   // Set the marker property on this infowindow so it isn't created again.
                   infowindow.marker = marker;
@@ -472,7 +508,6 @@ function initMap() {
                     if (loc.detail_info.price) {
                       innerHTML += '<br> Price: ' + loc.detail_info.price + ' 元';
                     }
-
                   }
 
                   if (place.opening_hours) {
@@ -502,36 +537,22 @@ function initMap() {
         });
   }
 
-  //全景图展示
-  //Baidu Pano
-
-  // var panorama = new BMap.Panorama('baidupano');
-  // panorama.setOptions({
-  //     indoorSceneSwitchControl: true //配置全景室内景切换控件显示
-  //   });
-  //
-  // function loadbaiduPanorama(){
-  //   panorama.setPosition(new BMap.Point(120.320032, 31.589666));	//3
-  //   // panorama.setId('0100010000130501122416015Z1');
-  //   panorama.setPov({heading: -40, pitch: 6});	//4
-  // }
-
-  // function baiduChangePanoView(loc) {
-  //   // console.log();
-  //   // console.log(point);
-  //   // panorama.setPosition(new BMap.Point(loc.location.lng, loc.location.lat));
-  //   panorama.setId(loc.uid);
-  //   panorama.setPov({heading: -40, pitch: 6});
-  // }
-  //
-  // loadbaiduPanorama();
-
-
+  /**
+   * loads the Google Street View for a given place
+   * @param  {place} place Place object returned by Google
+   */
   function loadGooglePanorama(place){
     var streetViewService = new google.maps.StreetViewService();
     var radius = 50;
 
+    /**
+     * When the status is OK, compute the position of the streetview image, then calculate
+     * the heading and get a panorama from that and set the options
+     * @param  {object} data   data returned from google
+     * @param  {string} status status of response
+     */
     function getStreetView(data, status) {
+      console.log(typeof status);
               var pano = $('#panorama');
               if (status == google.maps.StreetViewStatus.OK) {
                 pano.show();
@@ -556,13 +577,15 @@ function initMap() {
             // 50 meters of the markers position
             streetViewService.getPanoramaByLocation(place.geometry.location, radius, getStreetView);
   }
-
-  // function baiduChangePanoView(loc) {
-  //   // console.log();
-  //   // console.log(point);
-  //   // panorama.setPosition(new BMap.Point(loc.location.lng, loc.location.lat));
-  //   panorama.setId(loc.uid);
-  //   panorama.setPov({heading: -40, pitch: 6});
-  // }
-
+  function toggleBounce(marker) {
+        if (marker.getAnimation() !== null) {
+          marker.setLabel(marker.saveLabel);
+          marker.setAnimation(null);
+        } else {
+          marker.setAnimation(google.maps.Animation.BOUNCE);
+          marker.saveLabel = marker.getLabel();
+          marker.setLabel(null);
+          console.log(marker.saveLabel);
+        }
+      }
 }
