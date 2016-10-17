@@ -92,7 +92,6 @@ function getStoredHarvardData() {
     type: 'GET',
     dataType: 'json'
   }).done(function(data, textStatus, jqXHR) {
-    console.log('HTTP Request Succeeded: ' + jqXHR.status);
     if (data.records.length === 0) {
       $('#noData').fadeIn('slow').animate({opacity: 1.0}, 2500).fadeOut('slow');
     }
@@ -118,7 +117,6 @@ function getGettyData() {
     type: 'GET',
     dataType: 'json'
   }).done(function(data, textStatus, jqXHR) {
-    console.log('HTTP Request Succeeded: ' + jqXHR.status);
     var recordArray = data.Response.doc.record;
     var mappedObjects = $.map(recordArray, function(item) {
       //create a new URL based on the imageThumbURI to an enlarged version
@@ -134,14 +132,6 @@ function getGettyData() {
     /* ... */
   });
 }
-
-// DELETE
-// function parseHarvardData(data) {
-//   var records = data.records;
-//   records.forEach(function(record) {
-//     console.log(record.title);
-//   });
-// }
 
 function addLightbox() {
   // refactor out to new functions
