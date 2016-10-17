@@ -286,7 +286,6 @@ function initMap() {
         }
     })
     .done(function(data, textStatus, jqXHR) {
-        console.log('HTTP Request Succeeded: ' + jqXHR.status);
         //store results in locations array
         locations = data.results;
         //create markers for locations returned by Baidu
@@ -294,6 +293,7 @@ function initMap() {
     })
     .fail(function(jqXHR, textStatus, errorThrown) {
         console.log('HTTP Request Failed');
+        alert('Baidu search results could not load properly. Please try again in a few minutes.');
     });
   }
 
@@ -429,7 +429,6 @@ function initMap() {
     $('.list').hide();
     var placesList = $('.list:contains(' + tag + ')');
     placesList.show();
-    console.log(placesList);
   }
 
   function googleTranslateBaidu(word) {
@@ -446,10 +445,8 @@ function initMap() {
       },
   })
   .done(function(data, textStatus, jqXHR) {
-      console.log('HTTP Request Succeeded: ' + jqXHR.status);
       translatedWord = data.data.translations[0].translatedText;
       addTranslation(word, translatedWord);
-      console.log(translatedWord);
   })
   .fail(function(jqXHR, textStatus, errorThrown) {
       console.log('HTTP Request Failed');
@@ -552,7 +549,6 @@ function initMap() {
      * @param  {string} status status of response
      */
     function getStreetView(data, status) {
-      console.log(typeof status);
               var pano = $('#panorama');
               if (status == google.maps.StreetViewStatus.OK) {
                 pano.show();
@@ -585,7 +581,6 @@ function initMap() {
           marker.setAnimation(google.maps.Animation.BOUNCE);
           marker.saveLabel = marker.getLabel();
           marker.setLabel(null);
-          console.log(marker.saveLabel);
         }
       }
 }
