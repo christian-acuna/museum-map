@@ -1,4 +1,6 @@
 var map;
+// keep track of current marker used in toggleBounce()
+var activeMarker = null;
 // Custom map styles
 var styles = [
   {
@@ -573,14 +575,32 @@ function initMap() {
             // 50 meters of the markers position
             streetViewService.getPanoramaByLocation(place.geometry.location, radius, getStreetView);
   }
+
+
   function toggleBounce(marker) {
-        if (marker.getAnimation() !== null) {
-          marker.setLabel(marker.saveLabel);
-          marker.setAnimation(null);
-        } else {
-          marker.setAnimation(google.maps.Animation.BOUNCE);
+        // if there is no activeMarker then get the label and save it to saveLabel property, set label
+        // to null to avoid bouncing pin and static letter, set marker to activeMarker and make marker bounce
+        if (!activeMarker) {
           marker.saveLabel = marker.getLabel();
           marker.setLabel(null);
+          activeMarker = marker;
+          marker.setAnimation(google.maps.Animation.BOUNCE);
+          // if activeMarker does not equal marker then stop animation on activeMarker and set its
+          // labels to the value of saveLabel.
+        } else if (activeMarker !== marker) {
+          activeMarker.setAnimation(null);
+          activeMarker.setLabel(activeMarker.saveLabel);
+
+          marker.saveLabel = marker.getLabel();
+          marker.setLabel(null);
+          activeMarker = marker;
+          marker.setAnimation(google.maps.Animation.BOUNCE);
+          // if activeMarker equals current marker, set activeMarker animation to null and set
+          // its label. Also, set activeMarker to null. 
+        } else if (activeMarker === marker) {
+          activeMarker.setAnimation(null);
+          activeMarker.setLabel(activeMarker.saveLabel);
+          activeMarker = null;
         }
       }
 }
