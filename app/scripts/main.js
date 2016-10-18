@@ -104,6 +104,7 @@ function getStoredHarvardData() {
     addLightbox();
   }).fail(function(jqXHR, textStatus, errorThrown) {
     console.log('HTTP Request Failed');
+    $('#noHarvard').fadeIn('slow').animate({opacity: 1.0}, 2500).fadeOut('slow');
   });
 }
 
@@ -128,8 +129,7 @@ function getGettyData() {
     addLightbox();
   }).fail(function(jqXHR, textStatus, errorThrown) {
     console.log('HTTP Request Failed');
-  }).always(function() {
-    /* ... */
+    $('#noGetty').fadeIn('slow').animate({opacity: 1.0}, 2500).fadeOut('slow');
   });
 }
 

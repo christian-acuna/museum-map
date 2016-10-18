@@ -1,10 +1,3 @@
-// handle error if Google maps fails to load
-setTimeout(function() {
-  if(!window.google || !window.google.maps) {
-    $('#noMap').fadeIn('slow').animate({opacity: 1.0}, 4500);
-  }
-}, 7000);
-
 var map;
 // keep track of current marker used in toggleBounce()
 var activeMarker = null;
