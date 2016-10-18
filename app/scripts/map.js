@@ -499,7 +499,7 @@ function initMap() {
           query: marker.title,
           bounds: bounds
         }, function(results, status) {
-          if (status === google.maps.places.PlacesServiceStatus.OK) {
+          if ( status === google.maps.places.PlacesServiceStatus.OK) {
             var service = new google.maps.places.PlacesService(map);
               service.getDetails({
                 placeId: results[0].place_id
@@ -555,10 +555,18 @@ function initMap() {
                     activeMarker.setLabel(activeMarker.saveLabel);
                     activeMarker = null;
                   });
+                } else {
+                  noData();
                 }
               });
+          } else {
+            noData();
           }
         });
+  }
+
+  function noData() {
+    $('#noData').fadeIn('slow').animate({opacity: 1.0}, 2500).fadeOut('slow');
   }
 
   /**
