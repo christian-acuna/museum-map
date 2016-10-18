@@ -415,6 +415,7 @@ function initMap() {
     filterDiv.append(formText);
     formText.change(function(event) {
       filterMarkers(event.target.value);
+      // when new tag is selected, close info window and set activeMarker to null
       largeInfowindow.close();
       activeMarker = null;
     });
@@ -543,7 +544,8 @@ function initMap() {
                   // Make sure the marker property is cleared if the infowindow is closed.
                   infowindow.addListener('closeclick', function() {
                     infowindow.marker = null;
-                    console.log('here');
+                    // when infowindow is closed, set label of marker and set
+                    // activeMarker to null.
                     activeMarker.setLabel(activeMarker.saveLabel);
                     activeMarker = null;
                   });
@@ -602,7 +604,9 @@ function initMap() {
           marker.setLabel(null);
           activeMarker = marker;
           marker.setAnimation(google.maps.Animation.BOUNCE);
+          // use setTimeout to make bonce consistent
           setTimeout(function(){ marker.setAnimation(null); }, 1400);
+          // if there is no activeMarker, then a marker is selected and an infowindow is open
           infowindowOpen = true;
           // if activeMarker does not equal marker then stop animation on activeMarker and set its
           // labels to the value of saveLabel.
@@ -620,7 +624,9 @@ function initMap() {
         } else if (activeMarker === marker) {
           activeMarker.setAnimation(null);
           activeMarker.setLabel(activeMarker.saveLabel);
+          // close largeInfowindow
           largeInfowindow.close();
+          // set infowindowOpen to false
           infowindowOpen = false;
 
           activeMarker = null;
