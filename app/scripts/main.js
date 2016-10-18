@@ -99,11 +99,11 @@ function getStoredHarvardData() {
       var imageThumb = item.primaryimageurl + '?width=600';
       return new ArtObject(item.title, item.department, item.primaryimageurl, imageThumb, item.dated, item.period, item.culture, item.dimensions, item.creditline);
     });
-    console.log(mappedObjects);
     appViewModel.artObjects(mappedObjects);
     addLightbox();
   }).fail(function(jqXHR, textStatus, errorThrown) {
     console.log('HTTP Request Failed');
+    $('#noHarvard').fadeIn('slow').animate({opacity: 1.0}, 2500).fadeOut('slow');
   });
 }
 
@@ -128,8 +128,7 @@ function getGettyData() {
     addLightbox();
   }).fail(function(jqXHR, textStatus, errorThrown) {
     console.log('HTTP Request Failed');
-  }).always(function() {
-    /* ... */
+    $('#noGetty').fadeIn('slow').animate({opacity: 1.0}, 2500).fadeOut('slow');
   });
 }
 

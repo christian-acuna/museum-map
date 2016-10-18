@@ -1,10 +1,3 @@
-// handle error if Google maps fails to load
-setTimeout(function() {
-  if(!window.google || !window.google.maps) {
-    $('#noMap').fadeIn('slow').animate({opacity: 1.0}, 4500);
-  }
-}, 7000);
-
 var map;
 // keep track of current marker used in toggleBounce()
 var activeMarker = null;
@@ -382,6 +375,9 @@ function initMap() {
       var listEl =  $('<li class="list">' + title + ' <br> Rating: ' + rating + ' | ' + cursor + '</li> ');
       // add a click event to each li that getPlacesDetails and opens an infowindow when the li is clicked on
       listEl.click(function(event) {
+        window.setTimeout(function() {
+            map.panTo(marker.getPosition());
+          }, 100);
         if (!infowindowOpen || activeMarker !== marker) {
           getPlacesDetails(marker, largeInfowindow, bounds, loc);
           toggleBounce(marker, largeInfowindow);
@@ -394,6 +390,9 @@ function initMap() {
 
       // add a click event to each markre that getPlacesDetails and opens an infowindow when the marker is clicked on
       marker.addListener('click', function() {
+        window.setTimeout(function() {
+            map.panTo(marker.getPosition());
+          }, 100);
         if (!infowindowOpen || activeMarker !== marker) {
           getPlacesDetails(marker, largeInfowindow, bounds, loc);
           toggleBounce(marker, largeInfowindow);
@@ -500,7 +499,7 @@ function initMap() {
           query: marker.title,
           bounds: bounds
         }, function(results, status) {
-          if (status === google.maps.places.PlacesServiceStatus.OK) {
+          if ( status === google.maps.places.PlacesServiceStatus.OK) {
             var service = new google.maps.places.PlacesService(map);
               service.getDetails({
                 placeId: results[0].place_id
@@ -556,10 +555,18 @@ function initMap() {
                     activeMarker.setLabel(activeMarker.saveLabel);
                     activeMarker = null;
                   });
+                } else {
+                  noData();
                 }
               });
+          } else {
+            noData();
           }
         });
+  }
+
+  function noData() {
+    $('#noData').fadeIn('slow').animate({opacity: 1.0}, 2500).fadeOut('slow');
   }
 
   /**
@@ -639,4 +646,8 @@ function initMap() {
           activeMarker = null;
         }
       }
+}
+
+function mapError() {
+   $('#noMap').fadeIn('slow').animate({opacity: 1.0}, 4500);
 }
