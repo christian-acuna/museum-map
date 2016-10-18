@@ -43,7 +43,8 @@ html, body{
 }
 
 #noPano,
-#noData {
+#noData,
+#noMap {
   display: none;
 }
 
