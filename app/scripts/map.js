@@ -1,6 +1,14 @@
+// handle error if Google maps fails to load
+setTimeout(function() {
+  if(!window.google || !window.google.maps) {
+    $('#noMap').fadeIn('slow').animate({opacity: 1.0}, 4500);
+  }
+}, 7000);
+
 var map;
 // keep track of current marker used in toggleBounce()
 var activeMarker = null;
+var infowindowOpen = false;
 // Custom map styles
 var styles = [
   {
@@ -374,15 +382,24 @@ function initMap() {
       var listEl =  $('<li class="list">' + title + ' <br> Rating: ' + rating + ' | ' + cursor + '</li> ');
       // add a click event to each li that getPlacesDetails and opens an infowindow when the li is clicked on
       listEl.click(function(event) {
-        getPlacesDetails(marker, largeInfowindow, bounds, loc);
-        toggleBounce(marker);
+        if (!infowindowOpen || activeMarker !== marker) {
+          getPlacesDetails(marker, largeInfowindow, bounds, loc);
+          toggleBounce(marker, largeInfowindow);
+        } else {
+          toggleBounce(marker, largeInfowindow);
+        }
+
       });
       placesList.append(listEl);
 
       // add a click event to each markre that getPlacesDetails and opens an infowindow when the marker is clicked on
       marker.addListener('click', function() {
-        getPlacesDetails(this, largeInfowindow, bounds, loc);
-        toggleBounce(this);
+        if (!infowindowOpen || activeMarker !== marker) {
+          getPlacesDetails(marker, largeInfowindow, bounds, loc);
+          toggleBounce(marker, largeInfowindow);
+        } else {
+          toggleBounce(marker, largeInfowindow);
+        }
       });
       markers.push(marker);
       // extend the boundaries of the map for each marker
@@ -405,6 +422,9 @@ function initMap() {
     filterDiv.append(formText);
     formText.change(function(event) {
       filterMarkers(event.target.value);
+      // when new tag is selected, close info window and set activeMarker to null
+      largeInfowindow.close();
+      activeMarker = null;
     });
 
     uniqueTags.forEach(function(tag) {
@@ -468,6 +488,8 @@ function initMap() {
             // Make sure the marker property is cleared if the infowindow is closed.
             infowindow.addListener('closeclick',function(){
               infowindow.setMarker(null);
+              activeMarker.setLabel(activeMarker.saveLabel);
+              activeMarker = null;
             });
           }
   }
@@ -529,6 +551,10 @@ function initMap() {
                   // Make sure the marker property is cleared if the infowindow is closed.
                   infowindow.addListener('closeclick', function() {
                     infowindow.marker = null;
+                    // when infowindow is closed, set label of marker and set
+                    // activeMarker to null.
+                    activeMarker.setLabel(activeMarker.saveLabel);
+                    activeMarker = null;
                   });
                 }
               });
@@ -577,7 +603,7 @@ function initMap() {
   }
 
 
-  function toggleBounce(marker) {
+  function toggleBounce(marker, infowindow) {
         // if there is no activeMarker then get the label and save it to saveLabel property, set label
         // to null to avoid bouncing pin and static letter, set marker to activeMarker and make marker bounce
         if (!activeMarker) {
@@ -585,6 +611,10 @@ function initMap() {
           marker.setLabel(null);
           activeMarker = marker;
           marker.setAnimation(google.maps.Animation.BOUNCE);
+          // use setTimeout to make bonce consistent
+          setTimeout(function(){ marker.setAnimation(null); }, 1400);
+          // if there is no activeMarker, then a marker is selected and an infowindow is open
+          infowindowOpen = true;
           // if activeMarker does not equal marker then stop animation on activeMarker and set its
           // labels to the value of saveLabel.
         } else if (activeMarker !== marker) {
@@ -595,11 +625,17 @@ function initMap() {
           marker.setLabel(null);
           activeMarker = marker;
           marker.setAnimation(google.maps.Animation.BOUNCE);
+          setTimeout(function(){ marker.setAnimation(null); }, 1400);
           // if activeMarker equals current marker, set activeMarker animation to null and set
-          // its label. Also, set activeMarker to null. 
+          // its label. Also, set activeMarker to null.
         } else if (activeMarker === marker) {
           activeMarker.setAnimation(null);
           activeMarker.setLabel(activeMarker.saveLabel);
+          // close largeInfowindow
+          largeInfowindow.close();
+          // set infowindowOpen to false
+          infowindowOpen = false;
+
           activeMarker = null;
         }
       }
