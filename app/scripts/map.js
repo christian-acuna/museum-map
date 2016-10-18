@@ -375,6 +375,9 @@ function initMap() {
       var listEl =  $('<li class="list">' + title + ' <br> Rating: ' + rating + ' | ' + cursor + '</li> ');
       // add a click event to each li that getPlacesDetails and opens an infowindow when the li is clicked on
       listEl.click(function(event) {
+        window.setTimeout(function() {
+            map.panTo(marker.getPosition());
+          }, 100);
         if (!infowindowOpen || activeMarker !== marker) {
           getPlacesDetails(marker, largeInfowindow, bounds, loc);
           toggleBounce(marker, largeInfowindow);
@@ -387,6 +390,9 @@ function initMap() {
 
       // add a click event to each markre that getPlacesDetails and opens an infowindow when the marker is clicked on
       marker.addListener('click', function() {
+        window.setTimeout(function() {
+            map.panTo(marker.getPosition());
+          }, 100);
         if (!infowindowOpen || activeMarker !== marker) {
           getPlacesDetails(marker, largeInfowindow, bounds, loc);
           toggleBounce(marker, largeInfowindow);
