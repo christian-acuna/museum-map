@@ -633,3 +633,7 @@ function initMap() {
         }
       }
 }
+
+function mapError() {
+   $('#noMap').fadeIn('slow').animate({opacity: 1.0}, 4500);
+}
